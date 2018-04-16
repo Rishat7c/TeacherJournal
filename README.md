@@ -2,7 +2,7 @@
 
 Mobile applications to automate the work of a teacher.
 
-# Features
+### Features
 
 Basic Functionality
  - Check the attendance of the group (class)
