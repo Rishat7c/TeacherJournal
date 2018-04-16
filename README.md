@@ -13,6 +13,7 @@ Basic Functionality
 ### Development
 
 Code [Rishat7c](https://github.com/Rishat7c)
+
 Design [Rishat7c](https://github.com/Rishat7c)
 
 ### Todos
