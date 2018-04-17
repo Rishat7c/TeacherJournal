@@ -10,15 +10,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
-//    Button btnAdd, btnRead, btnClear;
-//    EditText etName, etEmail;
+    EditText l_email, l_pass;
 
-//    DBHelper dbHelper;
+    DBHelper dbHelper;
 
     Button b_reg, b_log;
+
+    public int arResult[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
         b_log = (Button) findViewById(R.id.b_log);
         b_log.setOnClickListener(this);
+
+        l_email = (EditText) findViewById(R.id.l_email);
+        l_pass = (EditText) findViewById(R.id.l_pass);
 
 //        btnAdd = (Button) findViewById(R.id.btnAdd);
 //        btnAdd.setOnClickListener(this);
@@ -43,19 +48,21 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 //        etName = (EditText) findViewById(R.id.etName);
 //        etEmail = (EditText) findViewById(R.id.etEmail);
 
-//        dbHelper = new DBHelper(this);
+        dbHelper = new DBHelper(this);
     }
 
     @Override
     public void onClick(View view) {
 
-//        String name = etName.getText().toString();
-//        String email = etEmail.getText().toString();
-//
-//        SQLiteDatabase database = dbHelper.getWritableDatabase();
-//
-//        ContentValues contentValues = new ContentValues();
-//
+        String email = l_email.getText().toString();
+        String pass = l_pass.getText().toString();
+
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        arResult = new int[50];
+
         switch (view.getId()) {
 
             case R.id.b_reg:
@@ -66,6 +73,28 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.b_log:
                 // Тут всякая дичь на проверка данных с полей и запрос в БД
+                Cursor cursor = database.query(DBHelper.TABLE_ACCOUNT, null, null, null, null, null, null);
+
+                if (cursor.moveToFirst()) {
+                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+                    int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+                    int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
+                    int passIndex = cursor.getColumnIndex(DBHelper.KEY_PASS);
+                    int groupIndex = cursor.getColumnIndex(DBHelper.KEY_GROUP);
+                    do {
+                        Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+                                ", name = " + cursor.getString(nameIndex) +
+                                ", email = " + cursor.getString(emailIndex) +
+                                ", pass = " + cursor.getString(passIndex) +
+                                ", group = " + cursor.getString(groupIndex));
+
+                    } while (cursor.moveToNext());
+                } else {
+                    Log.d("mLog", "0 rows");
+                }
+
+                cursor.close();
+
                 break;
 
 //            case R.id.btnAdd:
