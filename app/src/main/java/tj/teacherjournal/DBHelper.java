@@ -45,7 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method is to create user record
+     * Этот метод заключается в создании записи пользователя
      *
      * @param user
      */
@@ -59,18 +59,18 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBHelper.KEY_PASS, user.getPassword());
         values.put(DBHelper.KEY_GROUP, user.getGroup());
 
-        // Inserting Row
+        // Добавление в БД
         db.insert(TABLE_ACCOUNT, null, values);
         db.close();
     }
 
     /**
-     * This method is to fetch all user and return the list of user records
+     * Этот метод предназначен для извлечения всех пользователей и возврата списка записей пользователя
      *
      * @return list
      */
     public List<User> getAllUser() {
-        // array of columns to fetch
+        // массив столбцов для извлечения
         String[] columns = {
                 KEY_ID,
                 KEY_NAME,
@@ -78,29 +78,29 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_PASS,
                 KEY_GROUP
         };
-        // sorting orders
+        // сортировка
         String sortOrder =
                 KEY_NAME + " ASC";
         List<User> userList = new ArrayList<User>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // query the user table
+        // запросить таблицу пользователя
         /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_id,user_name,user_email,user_password FROM user ORDER BY user_name;
+         * Здесь функция запроса используется для извлечения записей из таблицы пользователей, эта функция работает так, как мы используем sql-запрос.
+         * SQL-запрос, эквивалентный этой функции запроса,
+         * SELECT user_id, user_name, user_email, user_password, user_group FROM account ORDER BY user_name;
          */
-        Cursor cursor = db.query(TABLE_ACCOUNT, //Table to query
-                columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
-                null,       //group the rows
-                null,       //filter by row groups
-                sortOrder); //The sort order
+        Cursor cursor = db.query(TABLE_ACCOUNT, // Таблица для запроса
+                columns,    // столбцы для возврата
+                null,        // столбцы для предложения WHERE
+                null,        // значения для предложения WHERE
+                null,       // группировать строки
+                null,       // группировать по группам строк
+                sortOrder); // порядок сортировки
 
 
-        // Traversing through all rows and adding to list
+        // Перемещение по всем строкам и добавление в список
         if (cursor.moveToFirst()) {
             do {
                 User user = new User();
@@ -109,19 +109,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 user.setEmail(cursor.getString(cursor.getColumnIndex(KEY_MAIL)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(KEY_PASS)));
                 user.setGroup(cursor.getString(cursor.getColumnIndex(KEY_GROUP)));
-                // Adding user record to list
+                // Добавление записи пользователя в список
                 userList.add(user);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
 
-        // return user list
+        // список возвращаемых пользователей
         return userList;
     }
 
     /**
-     * This method to update user record
+     * Этот метод обновления записи пользователя
      *
      * @param user
      */
@@ -134,58 +134,58 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_PASS, user.getPassword());
         values.put(KEY_GROUP, user.getGroup());
 
-        // updating row
+        // обновление строки
         db.update(TABLE_ACCOUNT, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
 
     /**
-     * This method is to delete user record
+     * Этот метод предназначен для удаления записи пользователя
      *
      * @param user
      */
     public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // delete user record by id
+        // удалить запись пользователя по идентификатору
         db.delete(TABLE_ACCOUNT, KEY_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
 
     /**
-     * This method to check user exist or not
+     * Этот метод проверки пользователя существует или нет
      *
      * @param email
      * @return true/false
      */
     public boolean checkUser(String email) {
 
-        // array of columns to fetch
+        // массив столбцов для извлечения
         String[] columns = {
                 KEY_ID
         };
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // selection criteria
+        // критерий выбора
         String selection = KEY_MAIL + " = ?";
 
-        // selection argument
+        // аргумент выбора
         String[] selectionArgs = {email};
 
-        // query user table with condition
+        // таблица запросов пользователя с условием
         /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         * Здесь функция запроса используется для извлечения записей из таблицы пользователей, эта функция работает так, как мы используем sql-запрос.
+         * SQL-запрос, эквивалентный этой функции запроса,
+         * SELECT user_id FROM user WHERE user_email = 'xpan96@gmail.com';
          */
-        Cursor cursor = db.query(TABLE_ACCOUNT, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                      //filter by row groups
-                null);                      //The sort order
+        Cursor cursor = db.query(TABLE_ACCOUNT, // таблица для запроса
+                columns,                    // столбцы для возврата
+                selection,                  // столбцы для предложения WHERE
+                selectionArgs,              // значения для предложения WHERE
+                null,                       // группировать строки
+                null,                      // группировать по группам строк
+                null);                      // порядок сортировки
         int cursorCount = cursor.getCount();
         cursor.close();
         db.close();
@@ -198,7 +198,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method to check user exist or not
+     * Этот метод проверки пользователя существует или нет
      *
      * @param email
      * @param password
@@ -206,30 +206,30 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public boolean checkUser(String email, String password) {
 
-        // array of columns to fetch
+        // массив столбцов для извлечения
         String[] columns = {
                 KEY_ID
         };
         SQLiteDatabase db = this.getReadableDatabase();
-        // selection criteria
+        // критерии выбора
         String selection = KEY_MAIL + " = ?" + " AND " + KEY_PASS + " = ?";
 
-        // selection arguments
+        // аргумент выбора
         String[] selectionArgs = {email, password};
 
-        // query user table with conditions
+        // таблица запросов пользователя
         /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
+         * Здесь функция запроса используется для извлечения записей из таблицы пользователей, эта функция работает так, как мы используем sql-запрос.
+         * SQL-запрос, эквивалентный этой функции запроса,
+         * SELECT user_id FROM user WHERE user_email = 'xpan96@gmail.com' И user_password = '123321';
          */
-        Cursor cursor = db.query(TABLE_ACCOUNT, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                       //filter by row groups
-                null);                      //The sort order
+        Cursor cursor = db.query(TABLE_ACCOUNT, // таблица для запроса
+                columns,                    // столбцы для возврата
+                selection,                  // столбцы для предложения WHERE
+                selectionArgs,              // значения для предложения WHERE
+                null,                       // группировать строки
+                null,                       // группировать по группам строк
+                null);                      // порядок сортировки
 
         int cursorCount = cursor.getCount();
 

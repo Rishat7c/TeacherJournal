@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,12 +15,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
+    private final AppCompatActivity activity = AuthActivity.this;
 
-    EditText l_email, l_pass;
-
-    DBHelper dbHelper;
-
-    Button b_reg, b_log;
+    private EditText l_email, l_pass;
+    private DBHelper dbHelper;
+    private Protection inputValidation;
+    private Button b_reg, b_log;
+    private NestedScrollView nestedScrollView;
 
     public int arResult[];
 
@@ -35,18 +38,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
         l_email = (EditText) findViewById(R.id.l_email);
         l_pass = (EditText) findViewById(R.id.l_pass);
-
-//        btnAdd = (Button) findViewById(R.id.btnAdd);
-//        btnAdd.setOnClickListener(this);
-//
-//        btnRead = (Button) findViewById(R.id.btnRead);
-//        btnRead.setOnClickListener(this);
-//
-//        btnClear = (Button) findViewById(R.id.btnClear);
-//        btnClear.setOnClickListener(this);
-//
-//        etName = (EditText) findViewById(R.id.etName);
-//        etEmail = (EditText) findViewById(R.id.etEmail);
 
         dbHelper = new DBHelper(this);
     }
@@ -72,29 +63,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.b_log:
-                // Тут всякая дичь на проверка данных с полей и запрос в БД
-                Cursor cursor = database.query(DBHelper.TABLE_ACCOUNT, null, null, null, null, null, null);
-
-                if (cursor.moveToFirst()) {
-                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                    int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-                    int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
-                    int passIndex = cursor.getColumnIndex(DBHelper.KEY_PASS);
-                    int groupIndex = cursor.getColumnIndex(DBHelper.KEY_GROUP);
-                    do {
-                        Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-                                ", name = " + cursor.getString(nameIndex) +
-                                ", email = " + cursor.getString(emailIndex) +
-                                ", pass = " + cursor.getString(passIndex) +
-                                ", group = " + cursor.getString(groupIndex));
-
-                    } while (cursor.moveToNext());
-                } else {
-                    Log.d("mLog", "0 rows");
-                }
-
-                cursor.close();
-
+                // Тут всякая дичь на проверку данных с полей и запрос в БД
+                CheckDataInBd();
                 break;
 
 //            case R.id.btnAdd:
@@ -126,8 +96,32 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 //                database.delete(DBHelper.TABLE_ACCOUNT, null, null);
 //                break;
         }
-//        dbHelper.close();
 
+    }
+
+    /**
+     * Этот метод предназначен для проверки входных текстовых полей и проверки учетных данных для входа в SQLite
+     */
+    private void CheckDataInBd() {
+
+        String email = l_email.getText().toString();
+        String pass = l_pass.getText().toString();
+
+        if(email.length() != 0 && pass.length() != 0) {
+
+            if (dbHelper.checkUser(email.trim(), pass.trim())) {
+
+                Intent accountsIntent = new Intent(activity, MainActivity.class);
+                accountsIntent.putExtra("EMAIL", l_email.getText().toString().trim());
+                startActivity(accountsIntent);
+
+            } else {
+                // Выкидываем ему тостер о неправильно введеных данных
+                Toast.makeText(this, "Неправильный логин или пароль!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Одно или несколько полей не заполнены!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

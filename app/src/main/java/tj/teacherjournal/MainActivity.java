@@ -12,9 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+//    private TextView helloMessage, appName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+//        helloMessage = (TextView) findViewById(R.id.m_hello_user);
+//        appName = (TextView) findViewById(R.id.m_app_name);
+//        helloMessage.setText("Привет, Rishat");
+//        appName.setText("Учительский журнал");
     }
 
     @Override

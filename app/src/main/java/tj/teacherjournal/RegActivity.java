@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 public class RegActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button b_reg_newbie, b_back_log;
-    EditText r_name, r_email, r_pass, r_group;
-
-    DBHelper dbHelper;
+    private Button b_reg_newbie, b_back_log;
+    private EditText r_name, r_email, r_pass, r_group;
+    private DBHelper dbHelper;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
 
         dbHelper = new DBHelper(this);
 
+        user = new User();
+
     }
 
     @Override
@@ -53,46 +55,9 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
 
             case R.id.b_reg_newbie:
-                // Проверка на заполнение всех четырех полей
-                if(name.length() != 0 && email.length() != 0 && pass.length() != 0 && group.length() != 0)
-                {
-                    // Отправка запроса на создание нового пользователя
-                    contentValues.put(DBHelper.KEY_NAME, name);
-                    contentValues.put(DBHelper.KEY_MAIL, email);
-                    contentValues.put(DBHelper.KEY_PASS, pass);
-                    contentValues.put(DBHelper.KEY_GROUP, group);
-
-                    database.insert(DBHelper.TABLE_ACCOUNT, null, contentValues);
-
-                    Toast.makeText(this, "Вы успешно зарегистрировались!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent_2;
-                    intent_2 = new Intent(RegActivity.this, AuthActivity.class);
-                    startActivity(intent_2);
-
-//                    Cursor cursor = database.query(DBHelper.TABLE_ACCOUNT, null, null, null, null, null, null);
-//
-//                    if (cursor.moveToFirst()) {
-//                        int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-//                        int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-//                        int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
-//                        do {
-//                            Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-//                                ", name = " + cursor.getString(nameIndex) +
-//                                ", email = " + cursor.getString(emailIndex));
-//                        } while (cursor.moveToNext());
-//                    } else {
-//                        Log.d("mLog", "0 rows");
-//                    }
-//
-//                    cursor.close();
-
-                } else {
-                    Toast.makeText(this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
-                }
-
-
-                System.out.println("Used b_reg_newbie");
+                // Отправка запроса на создание нового пользователя
+                PostDataInBd();
+//                System.out.println("Used b_reg_newbie");
                 break;
 
             case R.id.b_back_log:
@@ -100,10 +65,45 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
                 Intent intent_1;
                 intent_1 = new Intent(RegActivity.this, AuthActivity.class);
                 startActivity(intent_1);
-                System.out.println("Used b_back_log");
+//                System.out.println("Used b_back_log");
                 break;
 
         }
 
     }
+
+    private void PostDataInBd() {
+        String name = r_name.getText().toString();
+        String email = r_email.getText().toString();
+        String pass = r_pass.getText().toString();
+        String group = r_group.getText().toString();
+
+        // Проверка на заполнение всех четырех полей
+        if(name.length() != 0 && email.length() != 0 && pass.length() != 0 && group.length() != 0) {
+            if (!dbHelper.checkUser(email.trim())) {
+
+                user.setName(name.trim());
+                user.setEmail(email.trim());
+                user.setPassword(pass.trim());
+                user.setGroup(group.trim());
+
+                dbHelper.addUser(user);
+
+                // Снек-бар, чтобы показать сообщение об успешном завершении записи
+                Toast.makeText(this, "Вы успешно зарегистрировались!", Toast.LENGTH_SHORT).show();
+
+                Intent intent_2;
+                intent_2 = new Intent(RegActivity.this, AuthActivity.class);
+                startActivity(intent_2);
+
+            } else {
+                // Снек-бар, чтобы показать сообщение об ошибке, запись которого уже существует
+                Toast.makeText(this, "Пользователь с таким email адресом уже существует!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
