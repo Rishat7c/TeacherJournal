@@ -1,9 +1,7 @@
 package tj.teacherjournal;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,12 +10,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import tj.teacherjournal.fragments.FragmentAttend;
+import tj.teacherjournal.fragments.FragmentListStud;
+import tj.teacherjournal.fragments.FragmentNote;
+import tj.teacherjournal.fragments.FragmentPerform;
+import tj.teacherjournal.fragments.FragmentProfile;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    private TextView helloMessage, appName;
+    FragmentAttend fAttend;
+    FragmentListStud fListStud;
+    FragmentNote fNote;
+    FragmentPerform fPerform;
+    FragmentProfile fProfile; // Настройки
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +32,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // бургер ?
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG) // Изменить на свое действие
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,11 +42,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        String emailFromIntent = getIntent().getStringExtra("EMAIL");
-//        helloMessage = (TextView) findViewById(R.id.m_hello_user);
-//        appName = (TextView) findViewById(R.id.m_app_name);
-//        helloMessage.setText("Привет, Rishat");
-//        appName.setText("Учительский журнал");
+        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+
+        fAttend = new FragmentAttend();
+        fListStud = new FragmentListStud();
+        fNote = new FragmentNote();
+        fPerform = new FragmentPerform();
+        fProfile = new FragmentProfile();
+
     }
 
     @Override
@@ -63,22 +64,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present. Меню
+        // Надуть меню; это добавляет элементы в панель действий, если она присутствует.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        // Нажмите здесь пункт «Действия». Панель действий будет автоматически обрабатывать клики на кнопке Home / Up, так долго как вы указываете родительскую активность в AndroidManifest.xml.
 
         return super.onOptionsItemSelected(item);
     }
@@ -86,22 +79,21 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Нажатие кнопки навигации
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) { // Действие с камерой
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) { // Действие с галлерей
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        } else if (id == R.id.nav_slideshow) { // Действие с слайдером
-
-        } else if (id == R.id.nav_manage) { // Действие с пагинацией
-
-        } else if (id == R.id.nav_share) { // Действие с обозревателем
-
-        } else if (id == R.id.nav_send) {   // TODO: Действие с рассылкой e-mail & sms (Будет реализовано во второй версии)
-
-        }
+        // Действие с камерой
+        if (id == R.id.list_stud) {
+            fragmentTransaction.replace(R.id.container, fListStud);
+        } else if (id == R.id.perform) { // Действие с галлерей
+            fragmentTransaction.replace(R.id.container, fPerform);
+        } else if (id == R.id.attend) { // Действие с слайдером
+            fragmentTransaction.replace(R.id.container, fAttend);
+        } else if (id == R.id.note) { // Действие с пагинацией
+            fragmentTransaction.replace(R.id.container, fNote);
+        } fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
