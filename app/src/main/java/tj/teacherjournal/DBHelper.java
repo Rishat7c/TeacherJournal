@@ -17,14 +17,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "app.db";
-    public static final String TABLE_ACCOUNT = "account";
 
+    /**
+     * Таблица с аккаунтами
+     */
+    public static final String TABLE_ACCOUNT = "account";
     public static final String KEY_ID = "_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_MAIL = "email";
     public static final String KEY_PASS = "pass";
     public static final String KEY_GROUP = "groupid";
 
+    /**
+     * Таблица с студентами
+     */
+    public static final String TABLE_STUDENTS = "students";
+    public static final String STUD_ID = "_id";
+    public static final String STUD_NAME = "name";
+    public static final String STUD_SURNAME = "surname";
+    public static final String STUD_FATHERNAME = "fathername"; // Отчество ?
+    public static final String STUD_GENDER = "gender"; // Пол ?
+    public static final String STUD_AGE = "age";
+    public static final String STUD_GROUP = "groupid"; // Привязка с таблицой из аккаунтов
+    public static final String STUD_PROPISKA = "propiska"; // TODO: изменить на нормальный перевод
+//    public static final String STUD_COURSE = "course";
+//    public static final String STUD_SEMESTR = "semester";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,6 +52,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
 //      db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text" + ")");
 //        db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
+
+        //db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
     }
 
     @Override
