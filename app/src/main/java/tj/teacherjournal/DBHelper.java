@@ -115,6 +115,22 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Этот метод заключается в создании записи предмета
+     *
+     * @param subject
+     */
+    public void addSubject(Subject subject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(DBHelper.SUBJECT_NAME, subject.getName());
+        values.put(DBHelper.SUBJECT_TEACHER, subject.getTeacher());
+        // Добавление в БД
+        db.insert(TABLE_SUBJECT, null, values);
+        db.close();
+    }
 
     /**
      * Этот метод предназначен для извлечения всех пользователей и возврата списка записей пользователя
@@ -233,6 +249,58 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Этот метод предназначен для извлечения всех предметов и возврата списка записей предметов
+     *
+     * @return list
+     */
+    public List<Subject> getAllSubject() {
+        // массив столбцов для извлечения
+        String[] columns = {
+                SUBJECT_ID,
+                SUBJECT_NAME,
+                SUBJECT_TEACHER
+        };
+        // сортировка
+        String sortOrder =
+                SUBJECT_NAME + " ASC";
+        List<Subject> subjectList = new ArrayList<Subject>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // запросить таблицу пользователя
+        /**
+         * Здесь функция запроса используется для извлечения записей из таблицы предметов, эта функция работает так, как мы используем sql-запрос.
+         * SQL-запрос, эквивалентный этой функции запроса,
+         * SELECT subject_id, subject_name, subject_teacher FROM account ORDER BY subject_name;
+         */
+        Cursor cursor = db.query(TABLE_SUBJECT, // Таблица для запроса
+                columns,    // столбцы для возврата
+                null,        // столбцы для предложения WHERE
+                null,        // значения для предложения WHERE
+                null,       // группировать строки
+                null,       // группировать по группам строк
+                sortOrder); // порядок сортировки
+
+
+        // Перемещение по всем строкам и добавление в список
+        if (cursor.moveToFirst()) {
+            do {
+                Subject subject = new Subject();
+                subject.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SUBJECT_ID))));
+                subject.setName(cursor.getString(cursor.getColumnIndex(SUBJECT_NAME)));
+                subject.setTeacher(cursor.getString(cursor.getColumnIndex(SUBJECT_TEACHER)));
+                // Добавление записи пользователя в список
+                subjectList.add(subject);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // список возвращаемых пользователей
+        return subjectList;
+    }
+
+    /**
      * Этот метод обновления записи пользователя
      *
      * @param user
@@ -275,6 +343,19 @@ public class DBHelper extends SQLiteOpenHelper {
         // удалить запись пользователя по идентификатору
         db.delete(TABLE_STUDENT, STUD_ID + " = ?",
                 new String[]{String.valueOf(student.getId())});
+        db.close();
+    }
+
+    /**
+     * Этот метод предназначен для удаления записи студентов
+     *
+     * @param subject
+     */
+    public void deleteSubject(Subject subject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // удалить запись пользователя по идентификатору
+        db.delete(TABLE_SUBJECT, SUBJECT_ID + " = ?",
+                new String[]{String.valueOf(subject.getId())});
         db.close();
     }
 
