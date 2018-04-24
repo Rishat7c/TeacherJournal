@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Таблица с аккаунтами
      */
-    public static final String TABLE_ACCOUNT = "account";
+    public static final String TABLE_ACCOUNT = "account"; // аккаунты
     public static final String KEY_ID = "_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_MAIL = "email";
@@ -31,17 +31,24 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Таблица с студентами
      */
-    public static final String TABLE_STUDENTS = "students";
+    public static final String TABLE_STUDENTS = "student"; // список студентов
     public static final String STUD_ID = "_id";
     public static final String STUD_NAME = "name";
     public static final String STUD_SURNAME = "surname";
     public static final String STUD_FATHERNAME = "fathername"; // Отчество ?
     public static final String STUD_GENDER = "gender"; // Пол ?
     public static final String STUD_AGE = "age";
-    public static final String STUD_GROUP = "groupid"; // Привязка с таблицой из аккаунтов
-    public static final String STUD_PROPISKA = "propiska"; // TODO: изменить на нормальный перевод
-//    public static final String STUD_COURSE = "course";
-//    public static final String STUD_SEMESTR = "semester";
+    public static final String STUD_GROUP = "groupid"; // TODO: Привязка с таблицой из аккаунтов
+    public static final String STUD_REGISTRATION = "registration"; // Прописка
+    public static final String STUD_NUMBER = "studnumber"; // Номер студенческого билета
+
+    /**
+     *  Таблица с предметами
+     */
+    public static final String TABLE_SUBJECT = "subject"; // Предметы
+    public static final String SUBJECT_ID = "_id";
+    public static final String SUBJECT_NAME = "name";
+    public static final String SUBJECT_TEACHER = "teacher"; // Педагог
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,11 +56,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
-//      db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text" + ")");
-//        db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
+        //      db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text" + ")");
 
-        //db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
+        db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
+
+        db.execSQL("create table " + TABLE_STUDENTS + "(" + STUD_ID + " integer primary key," + STUD_NAME + " text," + STUD_SURNAME + " text," +
+                STUD_FATHERNAME + " text," + STUD_SURNAME + " text," + STUD_GENDER + " text," + STUD_AGE + " text," + STUD_GROUP + " text," +
+                STUD_REGISTRATION + " text," + STUD_NUMBER + " text" + ")");
+
+        db.execSQL("create table " + TABLE_SUBJECT + "(" + SUBJECT_ID + " integer primary key," + SUBJECT_NAME + " text," + SUBJECT_TEACHER + " text" +")");
+
     }
 
     @Override
