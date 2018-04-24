@@ -31,11 +31,9 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Таблица с студентами
      */
-    public static final String TABLE_STUDENTS = "student"; // список студентов
+    public static final String TABLE_STUDENT = "student"; // список студентов
     public static final String STUD_ID = "_id";
     public static final String STUD_NAME = "name";
-    public static final String STUD_SURNAME = "surname";
-    public static final String STUD_FATHERNAME = "fathername"; // Отчество ?
     public static final String STUD_GENDER = "gender"; // Пол ?
     public static final String STUD_AGE = "age";
     public static final String STUD_GROUP = "groupid"; // TODO: Привязка с таблицой из аккаунтов
@@ -60,8 +58,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + TABLE_ACCOUNT + "(" + KEY_ID + " integer primary key," + KEY_NAME + " text," + KEY_MAIL + " text," + KEY_PASS + " text," + KEY_GROUP + " text" + ")");
 
-        db.execSQL("create table " + TABLE_STUDENTS + "(" + STUD_ID + " integer primary key," + STUD_NAME + " text," + STUD_SURNAME + " text," +
-                STUD_FATHERNAME + " text," + STUD_SURNAME + " text," + STUD_GENDER + " text," + STUD_AGE + " text," + STUD_GROUP + " text," +
+        db.execSQL("create table " + TABLE_STUDENT + "(" + STUD_ID + " integer primary key," + STUD_NAME + " text," +
+                STUD_GENDER + " text," + STUD_AGE + " text," + STUD_GROUP + " text," +
                 STUD_REGISTRATION + " text," + STUD_NUMBER + " text" + ")");
 
         db.execSQL("create table " + TABLE_SUBJECT + "(" + SUBJECT_ID + " integer primary key," + SUBJECT_NAME + " text," + SUBJECT_TEACHER + " text" +")");
@@ -94,6 +92,29 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_ACCOUNT, null, values);
         db.close();
     }
+
+    /**
+     * Этот метод заключается в создании записи студентов
+     *
+     * @param student
+     */
+    public void addStudent(Student student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(DBHelper.STUD_NAME, student.getName());
+        values.put(DBHelper.STUD_GENDER, student.getGender());
+        values.put(DBHelper.STUD_AGE, student.getAge());
+        values.put(DBHelper.STUD_GROUP, student.getGroupid());
+        values.put(DBHelper.STUD_REGISTRATION, student.getRegistration());
+        values.put(DBHelper.STUD_NUMBER, student.getStudnumber());
+
+        // Добавление в БД
+        db.insert(TABLE_STUDENT, null, values);
+        db.close();
+    }
+
 
     /**
      * Этот метод предназначен для извлечения всех пользователей и возврата списка записей пользователя
@@ -152,6 +173,66 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Этот метод предназначен для извлечения всех студентов и возврата списка записей студентов
+     *
+     * @return list
+     */
+    public List<Student> getAllStudent() {
+        // массив столбцов для извлечения
+        String[] columns = {
+                STUD_ID,
+                STUD_NAME,
+                STUD_GENDER,
+                STUD_AGE,
+                STUD_GROUP,
+                STUD_REGISTRATION,
+                STUD_NUMBER
+        };
+        // сортировка
+        String sortOrder =
+                STUD_NAME + " ASC";
+        List<Student> studentList = new ArrayList<Student>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // запросить таблицу пользователя
+        /**
+         * Здесь функция запроса используется для извлечения записей из таблицы студентов, эта функция работает так, как мы используем sql-запрос.
+         * SQL-запрос, эквивалентный этой функции запроса,
+         * SELECT stud_id, stud_name, ..., ... FROM student ORDER BY stud_name;
+         */
+        Cursor cursor = db.query(TABLE_STUDENT, // Таблица для запроса
+                columns,    // столбцы для возврата
+                null,        // столбцы для предложения WHERE
+                null,        // значения для предложения WHERE
+                null,       // группировать строки
+                null,       // группировать по группам строк
+                sortOrder); // порядок сортировки
+
+
+        // Перемещение по всем строкам и добавление в список
+        if (cursor.moveToFirst()) {
+            do {
+                Student student = new Student();
+                student.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STUD_ID))));
+                student.setName(cursor.getString(cursor.getColumnIndex(STUD_NAME)));
+                student.setGender(cursor.getString(cursor.getColumnIndex(STUD_GENDER)));
+                student.setAge(cursor.getString(cursor.getColumnIndex(STUD_AGE)));
+                student.setGroupid(cursor.getString(cursor.getColumnIndex(STUD_GROUP)));
+                student.setRegistration(cursor.getString(cursor.getColumnIndex(STUD_REGISTRATION)));
+                student.setStudnumber(cursor.getString(cursor.getColumnIndex(STUD_NUMBER)));
+                // Добавление записи пользователя в список
+                studentList.add(student);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        // список возвращаемых пользователей
+        return studentList;
+    }
+
+    /**
      * Этот метод обновления записи пользователя
      *
      * @param user
@@ -181,6 +262,19 @@ public class DBHelper extends SQLiteOpenHelper {
         // удалить запись пользователя по идентификатору
         db.delete(TABLE_ACCOUNT, KEY_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
+        db.close();
+    }
+
+    /**
+     * Этот метод предназначен для удаления записи студентов
+     *
+     * @param student
+     */
+    public void deleteStudent(Student student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // удалить запись пользователя по идентификатору
+        db.delete(TABLE_STUDENT, STUD_ID + " = ?",
+                new String[]{String.valueOf(student.getId())});
         db.close();
     }
 
