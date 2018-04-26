@@ -15,4 +15,8 @@
     <string name="note_item">Заметки</string>
     <string name="settingprofile_item">Настройки провиля</string>
     <string name="settings">Настройки</string>
+    <string name="text_student">All student</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
 </resources>

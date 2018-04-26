@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
 
+//        navigationView = findViewById(R.id.nav_header_main);
+//        navigationView.inflateMenu(R.menu.activity_main_drawer);
+
         fAttend = new FragmentAttend();
         fListStud = new FragmentListStud();
         fNote = new FragmentNote();
