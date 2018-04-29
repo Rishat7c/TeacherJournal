@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import tj.teacherjournal.R;
-import tj.teacherjournal.User;
-
 import java.util.List;
 
 public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecyclerAdapter.UserViewHolder> {

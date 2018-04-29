@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import tj.teacherjournal.fragments.FragmentAttend;
 import tj.teacherjournal.fragments.FragmentListStud;
@@ -39,13 +41,15 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
 
-//        navigationView = findViewById(R.id.nav_header_main);
-//        navigationView.inflateMenu(R.menu.activity_main_drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.m_hello_user);
+        nav_user.setText("Привет, " + emailFromIntent);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         fAttend = new FragmentAttend();
         fListStud = new FragmentListStud();

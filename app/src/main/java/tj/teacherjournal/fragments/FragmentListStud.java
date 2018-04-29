@@ -1,5 +1,6 @@
 package tj.teacherjournal.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -82,15 +83,35 @@ public class FragmentListStud extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
 
-//        setContentView(R.layout.activity_users_list);
-//        getSupportActionBar().setTitle("");
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
+        View v = inflater.inflate(R.layout.fragment_list_stud, container, false);
+        AppCompatTextView textViewName = (AppCompatTextView) v.findViewById(R.id.textViewName);
+        RecyclerView recyclerViewUsers = (RecyclerView) v.findViewById(R.id.recyclerViewUsers);
+
+        listUsers = new ArrayList<>();
+        usersRecyclerAdapter = new StudentRecyclerAdapter(listUsers);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewUsers.setLayoutManager(mLayoutManager);
+        recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewUsers.setHasFixedSize(true);
+        recyclerViewUsers.setAdapter(usersRecyclerAdapter);
+        databaseHelper = new DBHelper(getActivity());
+
+        getDataFromSQLite();
+
+        return v;
     }
 
     /**
      * This method is to fetch all user records from SQLite
      */
+    //@SuppressLint("StaticFieldLeak")
     private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
         new AsyncTask<Void, Void, Void>() {
@@ -108,38 +129,6 @@ public class FragmentListStud extends Fragment {
                 usersRecyclerAdapter.notifyDataSetChanged();
             }
         }.execute();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_list_stud, container, false);
-
-        textViewName = (AppCompatTextView) view.findViewById(R.id.textViewName);
-        recyclerViewUsers = (RecyclerView) view.findViewById(R.id.recyclerViewUsers);
-
-        initObjects();
-
-        return inflater.inflate(R.layout.fragment_list_stud, container, false);
-    }
-
-    /**
-     * This method is to initialize objects to be used
-     */
-    private void initObjects() {
-        listUsers = new ArrayList<>();
-        usersRecyclerAdapter = new StudentRecyclerAdapter(listUsers);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewUsers.setLayoutManager(mLayoutManager);
-        recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewUsers.setHasFixedSize(true);
-        recyclerViewUsers.setAdapter(usersRecyclerAdapter);
-        databaseHelper = new DBHelper(getActivity());
-
-        getDataFromSQLite();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
