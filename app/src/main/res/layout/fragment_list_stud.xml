@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tj.teacherjournal.fragments.FragmentListStud">
+    tools:context="tj.teacherjournal.fragments.FragmentListStud"
+    android:gravity="center">
 
     <!-- TODO: Update blank fragment layout -->
     <!--<TextView-->
@@ -11,11 +12,20 @@
         <!--android:layout_height="match_parent"-->
         <!--android:text="@string/liststud_item" />-->
 
+    <!--android:gravity="center"-->
+    <Button
+        android:id="@+id/add_student"
+        android:layout_width="143dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_link_setting"
+        android:textColor="@color/colorTextHint"
+        android:text="Добавить" />
+
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
-        android:paddingLeft="16dp"
         android:paddingTop="5dp"
         android:text="@string/text_student"
         android:textColor="@android:color/black" />
