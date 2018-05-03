@@ -3,6 +3,7 @@ package tj.teacherjournal.fragments;
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,9 +44,9 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
 
     private FragmentListStud activity = FragmentListStud.this;
     private AppCompatTextView textViewName;
-    private RecyclerView recyclerViewUsers;
-    private List<User> listUsers;
-    private StudentRecyclerAdapter usersRecyclerAdapter;
+    private RecyclerView recyclerViewStudents;
+    private List<Student> listStudent;
+    private StudentRecyclerAdapter studentsRecyclerAdapter;
     private DBHelper databaseHelper;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -98,20 +100,20 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.fragment_list_stud, container, false);
         AppCompatTextView textViewName = (AppCompatTextView) v.findViewById(R.id.textViewName);
-        RecyclerView recyclerViewUsers = (RecyclerView) v.findViewById(R.id.recyclerViewUsers);
+        RecyclerView recyclerViewStudents = (RecyclerView) v.findViewById(R.id.recyclerViewStudents);
         add_student = (Button) v.findViewById(R.id.add_student);
         add_student.setOnClickListener(this);
 
         as_fragment = new frag_add_student();
 
-        listUsers = new ArrayList<>();
-        usersRecyclerAdapter = new StudentRecyclerAdapter(listUsers);
+        listStudent = new ArrayList<>();
+        studentsRecyclerAdapter = new StudentRecyclerAdapter(listStudent);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewUsers.setLayoutManager(mLayoutManager);
-        recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewUsers.setHasFixedSize(true);
-        recyclerViewUsers.setAdapter(usersRecyclerAdapter);
+        recyclerViewStudents.setLayoutManager(mLayoutManager);
+        recyclerViewStudents.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewStudents.setHasFixedSize(true);
+        recyclerViewStudents.setAdapter(studentsRecyclerAdapter);
         databaseHelper = new DBHelper(getActivity());
 
         getDataFromSQLite();
@@ -123,13 +125,14 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
      * This method is to fetch all user records from SQLite
      */
     //@SuppressLint("StaticFieldLeak")
+    @SuppressLint("StaticFieldLeak")
     private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                listUsers.clear();
-                listUsers.addAll(databaseHelper.getAllUser());
+                listStudent.clear();
+                listStudent.addAll(databaseHelper.getAllStudent());
 
                 return null;
             }
@@ -137,7 +140,7 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                usersRecyclerAdapter.notifyDataSetChanged();
+                studentsRecyclerAdapter.notifyDataSetChanged();
             }
         }.execute();
     }
