@@ -1,13 +1,85 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tj.teacherjournal.fragments.frag_add_student">
+    tools:context="tj.teacherjournal.fragments.frag_add_student"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/hello_blank_fragment" />-->
+
+
+    <EditText
+        android:id="@+id/Name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Фамилия Имя Отчество" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/Gander"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/gander"/>
+
+    <EditText
+        android:id="@+id/Age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Возраст" />
+
+    <EditText
+        android:id="@+id/Registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Прописка" />
+
+    <EditText
+        android:id="@+id/Studnumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Номер студенческого" />
+
+    <EditText
+        android:id="@+id/Phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:text="Номер телефона" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/Add"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_link_setting"
+            android:text="Добавить"
+            android:textColor="#00a042" />
+
+        <Button
+            android:layout_marginTop="25dp"
+            android:id="@+id/Back"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            android:text="Назад"
+            android:textColor="#FF0000"
+            android:background="@drawable/button_link_back" />
+    </LinearLayout>
+
+</LinearLayout>

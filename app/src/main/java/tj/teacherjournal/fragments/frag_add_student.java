@@ -1,14 +1,24 @@
 package tj.teacherjournal.fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import tj.teacherjournal.AuthActivity;
+import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
+import tj.teacherjournal.RegActivity;
+import tj.teacherjournal.Student;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +28,7 @@ import tj.teacherjournal.R;
  * Use the {@link frag_add_student#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class frag_add_student extends Fragment {
+public class frag_add_student extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +39,14 @@ public class frag_add_student extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private EditText Name, Age, Registration, Studnumber, Phone;
+    private Spinner Gander;
+    private Button Add, Back;
+    private DBHelper dbHelper;
+    private Student student;
+
+    FragmentListStud fragmentListStud;
 
     public frag_add_student() {
         // Required empty public constructor
@@ -64,8 +82,28 @@ public class frag_add_student extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_add_student, container, false);
+
+        View v = inflater.inflate(R.layout.frag_add_student, container, false);
+
+        Name = (EditText) v.findViewById(R.id.Name);
+        Gander = (Spinner) v.findViewById(R.id.Gander); // Инициализация пола
+        Age = (EditText) v.findViewById(R.id.Age);
+        Registration = (EditText) v.findViewById(R.id.Registration);
+        Studnumber = (EditText) v.findViewById(R.id.Studnumber);
+        Phone = (EditText) v.findViewById(R.id.Phone);
+
+        Add = (Button) v.findViewById(R.id.Add); // Добавить нового пользователя
+        Add.setOnClickListener(this);
+        Back = (Button) v.findViewById(R.id.Back); // Вернуться к списку студентов
+        Back.setOnClickListener(this);
+
+        fragmentListStud = new FragmentListStud();
+
+        dbHelper = new DBHelper(getActivity());
+
+        student = new Student();
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -75,21 +113,64 @@ public class frag_add_student extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.Add:
+                PostDataInBd();
+                break;
+            case R.id.Back:
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, fragmentListStud);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                Toast.makeText(getActivity(), "Хуя ебано мы вернулись нахад!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void PostDataInBd() {
+        String name = Name.getText().toString();
+        String gander = Gander.getSelectedItem().toString();
+        String age = Age.getText().toString();
+        String registration = Registration.getText().toString();
+        String studnumber = Studnumber.getText().toString();
+        String phone = Phone.getText().toString();
+
+        // Проверка на заполнение всех четырех полей
+        if(name.length() != 0 && gander.length() != 0 && age.length() != 0 && registration.length() != 0 && studnumber.length() != 0 && phone.length() != 0) {
+            if (!dbHelper.checkUser(studnumber.trim())) {
+
+                student.setName(name.trim());
+                student.setGender(gander.trim());
+                student.setAge(age.trim());
+                student.setRegistration(registration.trim());
+                student.setStudnumber(studnumber.trim());
+                student.setPhone(phone.trim());
+
+                dbHelper.addStudent(student);
+
+                // Снек-бар, чтобы показать сообщение об успешном завершении записи
+                Toast.makeText(getActivity(), "Студент успешно был добавлен!", Toast.LENGTH_SHORT).show();
+
+                // Добавить здесь переход на страницу со списком студентов
+
+            } else {
+                // Снек-бар, чтобы показать сообщение об ошибке, запись которого уже существует
+                Toast.makeText(getActivity(), "Студент с таким номер студ/билета уже существует", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /**

@@ -13,6 +13,7 @@ public class Student {
     private String groupid; // Надо бы сделать здесь конструкцию привязки из User -> groupid
     private String registration;
     private String studnumber;
+    private String phone;
 
     public int getId() {
         return id;
@@ -69,6 +70,14 @@ public class Student {
 
     public void setStudnumber(String studnumber) {
         this.studnumber = studnumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

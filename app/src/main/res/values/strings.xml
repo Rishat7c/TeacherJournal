@@ -19,4 +19,10 @@
     <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+
+    <string-array name="gander">
+        <item>МУЖ</item>
+        <item>ЖЕН</item>
+    </string-array>
+
 </resources>

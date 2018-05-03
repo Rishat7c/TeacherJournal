@@ -39,6 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String STUD_GROUP = "groupid"; // TODO: Привязка с таблицой из аккаунтов
     public static final String STUD_REGISTRATION = "registration"; // Прописка
     public static final String STUD_NUMBER = "studnumber"; // Номер студенческого билета
+    public static final String STUD_PHONE = "phone"; // Номер студенческого билета
 
     /**
      *  Таблица с предметами
@@ -60,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + TABLE_STUDENT + "(" + STUD_ID + " integer primary key," + STUD_NAME + " text," +
                 STUD_GENDER + " text," + STUD_AGE + " text," + STUD_GROUP + " text," +
-                STUD_REGISTRATION + " text," + STUD_NUMBER + " text" + ")");
+                STUD_REGISTRATION + " text," + STUD_NUMBER + " text," + STUD_PHONE + " text" + ")");
 
         db.execSQL("create table " + TABLE_SUBJECT + "(" + SUBJECT_ID + " integer primary key," + SUBJECT_NAME + " text," + SUBJECT_TEACHER + " text" +")");
 
@@ -109,6 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBHelper.STUD_GROUP, student.getGroupid());
         values.put(DBHelper.STUD_REGISTRATION, student.getRegistration());
         values.put(DBHelper.STUD_NUMBER, student.getStudnumber());
+        values.put(DBHelper.STUD_PHONE, student.getStudnumber());
 
         // Добавление в БД
         db.insert(TABLE_STUDENT, null, values);
@@ -202,7 +204,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 STUD_AGE,
                 STUD_GROUP,
                 STUD_REGISTRATION,
-                STUD_NUMBER
+                STUD_NUMBER,
+                STUD_PHONE
         };
         // сортировка
         String sortOrder =
@@ -237,6 +240,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 student.setGroupid(cursor.getString(cursor.getColumnIndex(STUD_GROUP)));
                 student.setRegistration(cursor.getString(cursor.getColumnIndex(STUD_REGISTRATION)));
                 student.setStudnumber(cursor.getString(cursor.getColumnIndex(STUD_NUMBER)));
+                student.setPhone(cursor.getString(cursor.getColumnIndex(STUD_PHONE)));
                 // Добавление записи пользователя в список
                 studentList.add(student);
             } while (cursor.moveToNext());
