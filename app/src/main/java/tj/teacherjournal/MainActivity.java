@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        // Действие с камерой
+        // Событие с кнопками в меню
         if (id == R.id.list_stud) {
             fragmentTransaction.replace(R.id.container, fListStud);
         } else if (id == R.id.perform) { // Действие с галлерей

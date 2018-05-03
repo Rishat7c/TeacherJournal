@@ -1,6 +1,7 @@
 package tj.teacherjournal.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,9 +14,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,7 @@ import tj.teacherjournal.User;
  * Use the {@link FragmentListStud#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentListStud extends Fragment {
+public class FragmentListStud extends Fragment implements View.OnClickListener {
 
     private FragmentListStud activity = FragmentListStud.this;
     private AppCompatTextView textViewName;
@@ -53,6 +57,9 @@ public class FragmentListStud extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button add_student;
+    frag_add_student as_fragment;
 
     public FragmentListStud() {
         // Required empty public constructor
@@ -92,6 +99,10 @@ public class FragmentListStud extends Fragment {
         View v = inflater.inflate(R.layout.fragment_list_stud, container, false);
         AppCompatTextView textViewName = (AppCompatTextView) v.findViewById(R.id.textViewName);
         RecyclerView recyclerViewUsers = (RecyclerView) v.findViewById(R.id.recyclerViewUsers);
+        add_student = (Button) v.findViewById(R.id.add_student);
+        add_student.setOnClickListener(this);
+
+        as_fragment = new frag_add_student();
 
         listUsers = new ArrayList<>();
         usersRecyclerAdapter = new StudentRecyclerAdapter(listUsers);
@@ -142,6 +153,21 @@ public class FragmentListStud extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_student:
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, as_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                Toast.makeText(getActivity(), "Хуя епте заработало!", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     /**
