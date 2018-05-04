@@ -64,11 +64,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/Save"
+            android:id="@+id/Update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_link_setting"
-            android:text="Сохранить"
+            android:text="Обновить"
             android:layout_weight="1"
             android:textColor="#00a042" />
 

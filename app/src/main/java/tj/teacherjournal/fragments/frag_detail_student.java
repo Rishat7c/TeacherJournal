@@ -1,10 +1,13 @@
 package tj.teacherjournal.fragments;
 
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +47,14 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
     private OnFragmentInteractionListener mListener;
 
     private List<Student> listStudent;
-    private Button Save, Delete, Back;
+    private Button Update, Delete, Back;
     private EditText Name, Age, Registration, Studnumber, Phone;
     private Spinner Gander;
     private DBHelper dbHelper;
     private Student student;
     FragmentListStud fragmentListStud;
     private int StudentID;
+    final String LOG_TAG = "myLogs"; // Логи
 
     public frag_detail_student() {
         // Required empty public constructor
@@ -98,6 +102,11 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
         Delete = (Button) v.findViewById(R.id.Delete);
         Delete.setOnClickListener(this);
 
+        Update = (Button) v.findViewById(R.id.Update);
+        Update.setOnClickListener(this);
+
+        Name = (EditText) v.findViewById(R.id.Name);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             StudentID = bundle.getInt("tag");
@@ -109,6 +118,21 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
 
         dbHelper = new DBHelper(getActivity());
 
+        // Вытаскиваем инфу из БД
+        Cursor cursor = dbHelper.getByIdStudent(StudentID);
+        if (cursor.moveToFirst()) {
+            int NameToInput = cursor.getColumnIndex(DBHelper.STUD_NAME);
+//            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
+//            int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
+            do {
+//                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
+//                        ", name = " + cursor.getString(nameIndex) +
+//                        ", email = " + cursor.getString(emailIndex));
+                Name.setText(cursor.getString(NameToInput));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
         return v;
     }
 
@@ -128,22 +152,22 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.Back:
+            case R.id.Back: // Назад
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container, fragmentListStud);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 break;
-            case R.id.Delete:
+            case R.id.Delete: // Удалить
                 dbHelper.deleteStudent(StudentID);
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.container, fragmentListStud);
                 ft.addToBackStack(null);
                 ft.commit();
-
                 Toast.makeText(getActivity(), "Ха удалили твоего студентика " + StudentID, Toast.LENGTH_SHORT).show();
-
+                break;
+            case R.id.Update: // Обновление и сохранение в БД
                 break;
         }
     }

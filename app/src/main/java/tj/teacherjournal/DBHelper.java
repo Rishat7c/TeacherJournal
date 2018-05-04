@@ -370,6 +370,17 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Вытаскиваем инфу о студенте
+     *
+     * @param id
+     * @return true/false
+     */
+    public Cursor getByIdStudent(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_STUDENT, null, "_id = " + id, null, null, null, null);
+    }
+
+    /**
      * Этот метод проверки пользователя существует или нет
      *
      * @param email
