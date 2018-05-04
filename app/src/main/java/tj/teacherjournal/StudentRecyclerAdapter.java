@@ -1,6 +1,12 @@
 package tj.teacherjournal;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,9 +18,13 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecyclerAdapter.StudentViewHolder> implements View.OnClickListener {
+import tj.teacherjournal.fragments.FragmentListStud;
+import tj.teacherjournal.fragments.frag_detail_student;
+
+public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecyclerAdapter.StudentViewHolder> {
 
     private List<Student> listStudent;
+    frag_detail_student detail_student;
 
     public StudentRecyclerAdapter(List<Student> listStudent) {
         this.listStudent = listStudent;
@@ -42,17 +52,6 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
         return listStudent.size();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.setting:
-
-//                Toast.makeText(view.getContext(), StudentViewHolder.setting.getTag(), Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
-
     /**
      * ViewHolder class
      */
@@ -67,6 +66,21 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
             textViewName = (AppCompatTextView) view.findViewById(R.id.textViewName);
             id_student = (AppCompatTextView) view.findViewById(R.id.id_student);
             setting = (ImageButton) view.findViewById(R.id.setting);
+            detail_student = new frag_detail_student();
+
+            setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "ID: " + setting.getTag(), Toast.LENGTH_LONG).show();
+
+                    FragmentTransaction fragmentTransaction = ((Activity)v.getContext()).getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container, detail_student);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                }
+            });
+
         }
     }
 
