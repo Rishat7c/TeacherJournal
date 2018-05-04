@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Фамилия Имя Отчество" />
+        android:hint="Фамилия Имя Отчество" />
 
     <Spinner
         android:id="@+id/Gander"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:text="Возраст" />
+        android:hint="Возраст" />
 
     <EditText
         android:id="@+id/Registration"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Прописка" />
+        android:hint="Прописка" />
 
     <EditText
         android:id="@+id/Studnumber"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:text="Номер студенческого" />
+        android:hint="Номер студенческого" />
 
     <EditText
         android:id="@+id/Phone"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
-        android:text="Номер телефона" />
+        android:hint="Номер телефона" />
 
     <LinearLayout
         android:layout_width="match_parent"

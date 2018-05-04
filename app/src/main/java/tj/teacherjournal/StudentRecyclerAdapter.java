@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +73,10 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(), "ID: " + setting.getTag(), Toast.LENGTH_LONG).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("tag", (Integer) setting.getTag()); // ID студента
+                    detail_student.setArguments(bundle); // Отправляем данные нахрен на другой фрагмент
 
                     FragmentTransaction fragmentTransaction = ((Activity)v.getContext()).getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.container, detail_student);

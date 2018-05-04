@@ -1,5 +1,6 @@
 package tj.teacherjournal.fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,13 +8,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
 import tj.teacherjournal.Student;
 import tj.teacherjournal.StudentRecyclerAdapter;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +31,7 @@ import tj.teacherjournal.StudentRecyclerAdapter;
  * Use the {@link frag_detail_student#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class frag_detail_student extends Fragment {
+public class frag_detail_student extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,6 +44,13 @@ public class frag_detail_student extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private List<Student> listStudent;
+    private Button Save, Delete, Back;
+    private EditText Name, Age, Registration, Studnumber, Phone;
+    private Spinner Gander;
+    private DBHelper dbHelper;
+    private Student student;
+    FragmentListStud fragmentListStud;
+    private int StudentID;
 
     public frag_detail_student() {
         // Required empty public constructor
@@ -77,6 +92,23 @@ public class frag_detail_student extends Fragment {
         listStudent = new ArrayList<>();
         StudentRecyclerAdapter myAdapter = new StudentRecyclerAdapter(listStudent);
 
+        Back = (Button) v.findViewById(R.id.Back);
+        Back.setOnClickListener(this);
+
+        Delete = (Button) v.findViewById(R.id.Delete);
+        Delete.setOnClickListener(this);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            StudentID = bundle.getInt("tag");
+            //Integer recieveInfo = bundle.getInt("tag");
+            Toast.makeText(getActivity(), "Ха " + StudentID, Toast.LENGTH_SHORT).show();
+        }
+
+        fragmentListStud = new FragmentListStud();
+
+        dbHelper = new DBHelper(getActivity());
+
         return v;
     }
 
@@ -87,21 +119,33 @@ public class frag_detail_student extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.Back:
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, fragmentListStud);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+            case R.id.Delete:
+                dbHelper.deleteStudent(StudentID);
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.container, fragmentListStud);
+                ft.addToBackStack(null);
+                ft.commit();
+
+                Toast.makeText(getActivity(), "Ха удалили твоего студентика " + StudentID, Toast.LENGTH_SHORT).show();
+
+                break;
+        }
     }
 
     /**
