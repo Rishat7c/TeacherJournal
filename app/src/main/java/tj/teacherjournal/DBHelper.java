@@ -110,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBHelper.STUD_GROUP, student.getGroupid());
         values.put(DBHelper.STUD_REGISTRATION, student.getRegistration());
         values.put(DBHelper.STUD_NUMBER, student.getStudnumber());
-        values.put(DBHelper.STUD_PHONE, student.getStudnumber());
+        values.put(DBHelper.STUD_PHONE, student.getPhone());
 
         // Добавление в БД
         db.insert(TABLE_STUDENT, null, values);

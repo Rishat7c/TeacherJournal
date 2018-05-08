@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -49,6 +50,7 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
     private List<Student> listStudent;
     private Button Update, Delete, Back;
     private EditText Name, Age, Registration, Studnumber, Phone;
+    private ArrayAdapter adapter;
     private Spinner Gander;
     private DBHelper dbHelper;
     private Student student;
@@ -106,6 +108,11 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
         Update.setOnClickListener(this);
 
         Name = (EditText) v.findViewById(R.id.Name);
+        Gander = (Spinner) v.findViewById(R.id.Gander);
+        Age = (EditText) v.findViewById(R.id.Age);
+        Registration = (EditText) v.findViewById(R.id.Registration);
+        Studnumber = (EditText) v.findViewById(R.id.Studnumber);
+        Phone = (EditText) v.findViewById(R.id.Phone);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -122,18 +129,38 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
         Cursor cursor = dbHelper.getByIdStudent(StudentID);
         if (cursor.moveToFirst()) {
             int NameToInput = cursor.getColumnIndex(DBHelper.STUD_NAME);
-//            int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-//            int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
+            int GanderToInput = cursor.getColumnIndex(DBHelper.STUD_GENDER);
+            int AgeToInput = cursor.getColumnIndex(DBHelper.STUD_AGE);
+            int RegistrationToInput = cursor.getColumnIndex(DBHelper.STUD_REGISTRATION);
+            int StudnumberToInput = cursor.getColumnIndex(DBHelper.STUD_NUMBER);
+            int PhoneToInput = cursor.getColumnIndex(DBHelper.STUD_PHONE);
             do {
-//                Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-//                        ", name = " + cursor.getString(nameIndex) +
-//                        ", email = " + cursor.getString(emailIndex));
                 Name.setText(cursor.getString(NameToInput));
+                Gander.setSelection(getIndex(Gander, cursor.getString(GanderToInput)));
+                Age.setText(cursor.getString(AgeToInput));
+                Registration.setText(cursor.getString(RegistrationToInput));
+                Studnumber.setText(cursor.getString(StudnumberToInput));
+                Phone.setText(cursor.getString(PhoneToInput));
+
             } while (cursor.moveToNext());
         }
 
         cursor.close();
         return v;
+    }
+
+    // вытаскиваем данные из спиннера с указанным значением из БД
+    private int getIndex(Spinner spinner, String myString)
+    {
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
