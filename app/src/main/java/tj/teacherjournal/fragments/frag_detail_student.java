@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -50,7 +51,6 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
     private List<Student> listStudent;
     private Button Update, Delete, Back;
     private EditText Name, Age, Registration, Studnumber, Phone;
-    private ArrayAdapter adapter;
     private Spinner Gander;
     private DBHelper dbHelper;
     private Student student;
@@ -178,6 +178,19 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+
+        ContentValues cv = new ContentValues();
+        // Создаем подключение к БД йобана только пока глобально для клика , можно сделать локально для батона
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        // Получаем данные с инпатов
+        String sName = Name.getText().toString();
+        String sGander = Gander.getSelectedItem().toString();;
+        String sAge = Age.getText().toString();;
+        String sRegistration = Registration.getText().toString();;
+        String sNumber = Studnumber.getText().toString();;
+        String sPhone = Phone.getText().toString();;
+        //
+
         switch (view.getId()) {
             case R.id.Back: // Назад
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -195,6 +208,23 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
                 Toast.makeText(getActivity(), "Ха удалили твоего студентика " + StudentID, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Update: // Обновление и сохранение в БД
+                // подготовим значения для обновления
+                cv.put(DBHelper.STUD_NAME, sName);
+                cv.put(DBHelper.STUD_GENDER, sGander);
+                cv.put(DBHelper.STUD_AGE, sAge);
+                cv.put(DBHelper.STUD_REGISTRATION, sRegistration);
+                cv.put(DBHelper.STUD_NUMBER, sNumber);
+                cv.put(DBHelper.STUD_PHONE, sPhone);
+                // обновляем по id
+                int updCount = db.update(DBHelper.TABLE_STUDENT, cv, DBHelper.STUD_ID + " = ?", new String[] { String.valueOf(StudentID) });
+                Log.d(LOG_TAG, "updated rows count = " + updCount);
+
+                FragmentTransaction f = getFragmentManager().beginTransaction();
+                f.replace(R.id.container, fragmentListStud);
+                f.addToBackStack(null);
+                f.commit();
+                Toast.makeText(getActivity(), "Норм изменили данные студента " + StudentID, Toast.LENGTH_SHORT).show();
+
                 break;
         }
     }

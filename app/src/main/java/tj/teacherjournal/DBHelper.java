@@ -342,13 +342,6 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param i
      */
-//    public void deleteStudent(Student student) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        // удалить запись пользователя по идентификатору
-//        db.delete(TABLE_STUDENT, STUD_ID + " = ?",
-//                new String[]{String.valueOf(student.getId())});
-//        db.close();
-//    }
     public void deleteStudent(int i) {
         SQLiteDatabase db = this.getWritableDatabase();
         // удалить запись пользователя по идентификатору
