@@ -1,5 +1,6 @@
 package tj.teacherjournal;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import tj.teacherjournal.fragments.FragmentAttend;
 import tj.teacherjournal.fragments.FragmentListStud;
+import tj.teacherjournal.fragments.FragmentMain;
 import tj.teacherjournal.fragments.FragmentNote;
 import tj.teacherjournal.fragments.FragmentPerform;
 import tj.teacherjournal.fragments.FragmentProfile;
@@ -27,6 +30,10 @@ public class MainActivity extends AppCompatActivity
     FragmentNote fNote;
     FragmentPerform fPerform;
     FragmentProfile fProfile; // Настройки
+    FragmentMain fMain; // Главная страница
+
+    private TextView link_main;
+    private TextView nav_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +53,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         View hView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView)hView.findViewById(R.id.m_hello_user);
+        nav_user = (TextView)hView.findViewById(R.id.m_hello_user);
+        link_main = (TextView)hView.findViewById(R.id.m_app_name);
         nav_user.setText("Привет, " + emailFromIntent);
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -56,6 +64,28 @@ public class MainActivity extends AppCompatActivity
         fNote = new FragmentNote();
         fPerform = new FragmentPerform();
         fProfile = new FragmentProfile();
+        fMain = new FragmentMain();
+
+        // Добавить загрузочный контент , аля типа главная страница
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fMain);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        link_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, fMain);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
 
     }
 
