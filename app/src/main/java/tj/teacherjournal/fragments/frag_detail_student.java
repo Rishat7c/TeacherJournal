@@ -1,5 +1,6 @@
 package tj.teacherjournal.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,17 +9,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import tj.teacherjournal.DBHelper;
@@ -50,13 +57,16 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
 
     private List<Student> listStudent;
     private Button Update, Delete, Back;
-    private EditText Name, Age, Registration, Studnumber, Phone;
+    private EditText Name, Registration, Studnumber, Phone;
+    private TextView Age;
     private Spinner Gander;
     private DBHelper dbHelper;
     private Student student;
     FragmentListStud fragmentListStud;
     private int StudentID;
     final String LOG_TAG = "myLogs"; // Логи
+
+    Calendar dateAndTime=Calendar.getInstance();
 
     public frag_detail_student() {
         // Required empty public constructor
@@ -109,10 +119,13 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
 
         Name = (EditText) v.findViewById(R.id.Name);
         Gander = (Spinner) v.findViewById(R.id.Gander);
-        Age = (EditText) v.findViewById(R.id.Age);
+        Age = (TextView) v.findViewById(R.id.Age);
         Registration = (EditText) v.findViewById(R.id.Registration);
         Studnumber = (EditText) v.findViewById(R.id.Studnumber);
         Phone = (EditText) v.findViewById(R.id.Phone);
+
+        Age = (TextView) v.findViewById(R.id.Age);
+        Age.setOnClickListener(this);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -224,10 +237,39 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
                 f.addToBackStack(null);
                 f.commit();
                 Toast.makeText(getActivity(), "Норм изменили данные студента " + StudentID, Toast.LENGTH_SHORT).show();
-
+                break;
+            case R.id.Age:
+                setDate(view);
                 break;
         }
     }
+
+    // отображаем диалоговое окно для выбора даты
+    public void setDate(View v) {
+        new DatePickerDialog(getActivity(), d,
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    // установка начальных даты и времени
+    private void setInitialDateTime() {
+
+        Age.setText(DateUtils.formatDateTime(getActivity(),
+                dateAndTime.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
+    // установка обработчика выбора даты
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this

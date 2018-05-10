@@ -38,7 +38,6 @@
             android:entries="@array/gander"
             android:layout_below="@id/Name"
 
-            android:theme="@style/AppTheme.FormInputTheme"
             style="@style/AppTheme.FormEntryRow"
             />
 
