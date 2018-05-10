@@ -6,4 +6,6 @@
     <color name="colorWhite">#FAFAFA</color>
     <color name="colorPink">#fe104d</color>
     <color name="colorTextHint">#51d8c7</color>
+    <color name="color_text_secondary">#8A000000</color>
+    <color name="color_text_primary">#DE000000</color>
 </resources>

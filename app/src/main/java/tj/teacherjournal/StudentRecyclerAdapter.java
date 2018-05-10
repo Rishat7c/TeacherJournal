@@ -6,7 +6,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -43,8 +52,17 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
     @Override
     public void onBindViewHolder(StudentViewHolder holder, int position) {
         holder.textViewName.setText(listStudent.get(position).getName());
-        holder.id_student.setText(listStudent.get(position).getStudnumber());
+        holder.id_student.setText(listStudent.get(position).getPhone());
         holder.setting.setTag(listStudent.get(position).getId());
+        if(listStudent.get(position).getGender().equals("МУЖ")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.item_student_icon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4286f4")));
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.item_student_icon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffa0d6")));
+            }
+        }
     }
 
     @Override
@@ -58,18 +76,21 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
      */
     public class StudentViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView textViewName;
-        public AppCompatTextView id_student;
-        public ImageButton setting;
+        public TextView textViewName;
+        public TextView id_student;
+        public TextView item_student_icon;
+        public RelativeLayout setting;
 
         public StudentViewHolder(View view) {
             super(view);
-            textViewName = (AppCompatTextView) view.findViewById(R.id.textViewName);
-            id_student = (AppCompatTextView) view.findViewById(R.id.id_student);
-            setting = (ImageButton) view.findViewById(R.id.setting);
+            textViewName = (TextView) view.findViewById(R.id.textViewName);
+            id_student = (TextView) view.findViewById(R.id.id_student);
+            setting = (RelativeLayout) view.findViewById(R.id.setting);
+            item_student_icon = (TextView) view.findViewById(R.id.item_student_icon);
+
             detail_student = new frag_detail_student();
 
-            setting.setOnClickListener(new View.OnClickListener() {
+            item_student_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(), "ID: " + setting.getTag(), Toast.LENGTH_LONG).show();

@@ -1,118 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/setting">
 
+    <!--<TextView-->
+        <!--android:id="@+id/item_student_icon"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:background="@drawable/bg_icon_round"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="6dp"-->
+        <!--android:text="T"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="16sp"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginLeft="16dp" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/item_student_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_gender"
+        android:gravity="center"
+        android:padding="6dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:layout_toEndOf="@id/item_student_icon"
+        android:layout_toRightOf="@id/item_student_icon">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Einstein A. H."
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/id_student"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/hint_name"
-                android:textColor="@color/colorTextHint" />
+        <TextView
+            android:id="@+id/id_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewName"
+            android:layout_margin="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="+7 999 111-11-11"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textViewName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/hint_name"
-                android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/setting"
-                android:tag="0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                card_view:srcCompat="@drawable/ic_settings_black_24dp"
-                tools:ignore="VectorDrawableCompat" />
+    <include
+        layout="@layout/layout_student_indicators"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        />
 
-        </LinearLayout>
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<android.support.v7.widget.AppCompatTextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="2"-->
-                <!--android:text="@string/hint_email"-->
-                <!--android:textColor="@color/colorTextHint" />-->
-
-            <!--<android.support.v7.widget.AppCompatTextView-->
-                <!--android:id="@+id/textViewGender"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="@string/hint_email"-->
-                <!--android:textColor="@android:color/darker_gray" />-->
-        <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="16dp">-->
 
         <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
             <!--android:orientation="horizontal">-->
 
             <!--<android.support.v7.widget.AppCompatTextView-->
+                <!--android:id="@+id/id_student"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_weight="2"-->
-                <!--android:text="@string/hint_password"-->
+                <!--android:text="@string/hint_name"-->
                 <!--android:textColor="@color/colorTextHint" />-->
 
             <!--<android.support.v7.widget.AppCompatTextView-->
-                <!--android:id="@+id/textViewPassword"-->
+                <!--android:id="@+id/textViewName"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_weight="1"-->
-                <!--android:text="@string/hint_password"-->
+                <!--android:text="@string/hint_name"-->
                 <!--android:textColor="@android:color/darker_gray" />-->
-        <!--</LinearLayout>-->
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="381dp"-->
-            <!--android:layout_height="37dp"-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<Button-->
+            <!--<ImageButton-->
                 <!--android:id="@+id/setting"-->
-                <!--android:layout_width="143dp"-->
-                <!--android:layout_height="match_parent"-->
+                <!--android:tag="0"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
                 <!--android:layout_weight="2"-->
-                <!--android:background="@drawable/button_link_setting"-->
-                <!--android:text="Параметры "-->
-                <!--android:textColor="@color/colorTextHint"-->
-                <!--android:textSize="12dp" />-->
+                <!--card_view:srcCompat="@drawable/ic_settings_black_24dp"-->
+                <!--tools:ignore="VectorDrawableCompat" />-->
 
-            <!--<android.support.v7.widget.AppCompatTextView-->
-            <!--android:id="@+id/textViewPassword"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/hint_password"-->
-            <!--android:textColor="@android:color/darker_gray" />-->
         <!--</LinearLayout>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-</android.support.v7.widget.CardView>
+</RelativeLayout>
