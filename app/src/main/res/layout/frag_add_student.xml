@@ -1,70 +1,139 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tj.teacherjournal.fragments.frag_add_student"
-    android:orientation="vertical">
+    >
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="@string/hello_blank_fragment" />-->
-
-
-    <EditText
-        android:id="@+id/Name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Фамилия Имя Отчество" />
+        >
 
-    <Spinner
-        android:id="@+id/Gander"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/gander"/>
+        <ImageView
+            android:id="@+id/student_create_icon_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:srcCompat="@drawable/ic_students_black_24dp"
+            style="@style/AppTheme.FormInputIcon"
+            />
 
-    <EditText
-        android:id="@+id/Age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Возраст" />
+        <EditText
+            android:id="@+id/Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Фамилия Имя Отчество"
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
 
-    <EditText
-        android:id="@+id/Registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Прописка" />
+        <Spinner
+            android:id="@+id/Gander"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/gander"
+            android:layout_below="@id/Name"
 
-    <EditText
-        android:id="@+id/Studnumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Номер студенческого" />
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
 
-    <EditText
-        android:id="@+id/Phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="Номер телефона" />
+        <EditText
+            android:id="@+id/Registration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Gander"
+            android:hint="Прописка"
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        <EditText
+            android:id="@+id/Studnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Registration"
+            android:hint="Номер студенческого билета"
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
 
-        <Button
+        <ImageView
+            android:id="@+id/student_create_icon_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Studnumber"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_call_black_24dp"
+            style="@style/AppTheme.FormInputIcon"
+            />
+
+        <LinearLayout
+            android:id="@+id/student_create_wrapper_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Studnumber"
+            android:orientation="horizontal"
+            style="@style/AppTheme.FormEntryRow"
+            >
+
+            <EditText
+                android:id="@+id/Phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Телефон"
+                android:inputType="phone"
+                android:theme="@style/AppTheme.FormInputTheme"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/student_create_wrapper_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/student_create_wrapper_phone"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_cake_black_24dp"
+                style="@style/AppTheme.FormInputIcon"
+                />
+
+            <TextView
+                android:id="@+id/Age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="56dp"
+                android:layout_marginStart="4dp"
+                android:maxLines="1"
+                android:text="Указать дату рождения*"
+                android:textColor="@color/color_text_secondary"
+                android:textSize="16sp"
+                android:layout_marginRight="56dp"
+                android:layout_marginLeft="4dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_below="@id/student_create_wrapper_birthday">
+
+            <Button
             android:id="@+id/Add"
             android:layout_width="148dp"
             android:layout_height="wrap_content"
@@ -72,7 +141,7 @@
             android:text="Добавить"
             android:textColor="#00a042" />
 
-        <Button
+            <Button
             android:layout_marginTop="25dp"
             android:id="@+id/Back"
             android:layout_width="148dp"
@@ -80,6 +149,93 @@
             android:text="Назад"
             android:textColor="#FF0000"
             android:background="@drawable/button_link_back" />
-    </LinearLayout>
+        </LinearLayout>
 
-</LinearLayout>
+    </RelativeLayout>
+</ScrollView>
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="tj.teacherjournal.fragments.frag_add_student"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="@string/hello_blank_fragment" />&ndash;&gt;-->
+
+
+    <!--<EditText-->
+        <!--android:id="@+id/Name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:hint="Фамилия Имя Отчество" />-->
+
+    <!--<Spinner-->
+        <!--android:id="@+id/Gander"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:entries="@array/gander"/>-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/Age"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="number"-->
+        <!--android:hint="Возраст" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/Registration"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:hint="Прописка" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/Studnumber"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="number"-->
+        <!--android:hint="Номер студенческого" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/Phone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="phone"-->
+        <!--android:hint="Номер телефона" />-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/Add"-->
+            <!--android:layout_width="148dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/button_link_setting"-->
+            <!--android:text="Добавить"-->
+            <!--android:textColor="#00a042" />-->
+
+        <!--<Button-->
+            <!--android:layout_marginTop="25dp"-->
+            <!--android:id="@+id/Back"-->
+            <!--android:layout_width="148dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Назад"-->
+            <!--android:textColor="#FF0000"-->
+            <!--android:background="@drawable/button_link_back" />-->
+    <!--</LinearLayout>-->
+
+<!--</LinearLayout>-->

@@ -12,4 +12,22 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.FormInputTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.FormEntryRow">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">56dp</item>
+    </style>
+
+    <style name="AppTheme.FormInputIcon">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
 </resources>

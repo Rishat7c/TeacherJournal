@@ -1,18 +1,29 @@
 package tj.teacherjournal.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import tj.teacherjournal.AuthActivity;
 import tj.teacherjournal.DBHelper;
@@ -40,11 +51,14 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    private EditText Name, Age, Registration, Studnumber, Phone;
+    private EditText Name, Registration, Studnumber, Phone;
+    public TextView Age;
     private Spinner Gander;
     private Button Add, Back;
     private DBHelper dbHelper;
     private Student student;
+
+    Calendar dateAndTime=Calendar.getInstance();
 
     FragmentListStud fragmentListStud;
 
@@ -87,7 +101,6 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
 
         Name = (EditText) v.findViewById(R.id.Name);
         Gander = (Spinner) v.findViewById(R.id.Gander); // Инициализация пола
-        Age = (EditText) v.findViewById(R.id.Age);
         Registration = (EditText) v.findViewById(R.id.Registration);
         Studnumber = (EditText) v.findViewById(R.id.Studnumber);
         Phone = (EditText) v.findViewById(R.id.Phone);
@@ -102,6 +115,9 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
         dbHelper = new DBHelper(getActivity());
 
         student = new Student();
+
+        Age = (TextView) v.findViewById(R.id.Age);
+        Age.setOnClickListener(this);
 
         return v;
     }
@@ -133,6 +149,9 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
                 fragmentTransaction.commit();
 
                 Toast.makeText(getActivity(), "Хуя ебано мы вернулись нахад!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Age:
+                setDate(view);
                 break;
         }
     }
@@ -172,6 +191,33 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
         }
 
     }
+
+    // отображаем диалоговое окно для выбора даты
+    public void setDate(View v) {
+        new DatePickerDialog(getActivity(), d,
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    // установка начальных даты и времени
+    private void setInitialDateTime() {
+
+        Age.setText(DateUtils.formatDateTime(getActivity(),
+                dateAndTime.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
+    // установка обработчика выбора даты
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this
