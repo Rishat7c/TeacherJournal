@@ -19,9 +19,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     private EditText l_email, l_pass;
     private DBHelper dbHelper;
-    private Protection inputValidation;
     private Button b_reg, b_log;
-    private NestedScrollView nestedScrollView;
 
     public int arResult[];
 
@@ -66,35 +64,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 // Тут всякая дичь на проверку данных с полей и запрос в БД
                 CheckDataInBd();
                 break;
-
-//            case R.id.btnAdd:
-//                contentValues.put(DBHelper.KEY_NAME, name);
-//                contentValues.put(DBHelper.KEY_MAIL, email);
-//
-//                database.insert(DBHelper.TABLE_ACCOUNT, null, contentValues);
-//                break;
-//
-//            case R.id.btnRead:
-//                Cursor cursor = database.query(DBHelper.TABLE_ACCOUNT, null, null, null, null, null, null);
-//
-//                if (cursor.moveToFirst()) {
-//                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-//                    int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
-//                    int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
-//                    do {
-//                        Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
-//                                ", name = " + cursor.getString(nameIndex) +
-//                                ", email = " + cursor.getString(emailIndex));
-//                    } while (cursor.moveToNext());
-//                } else
-//                    Log.d("mLog","0 rows");
-//
-//                cursor.close();
-//                break;
-//
-//            case R.id.btnClear:
-//                database.delete(DBHelper.TABLE_ACCOUNT, null, null);
-//                break;
         }
 
     }

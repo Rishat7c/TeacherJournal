@@ -4,10 +4,101 @@
     android:layout_height="match_parent"
     tools:context="tj.teacherjournal.fragments.FragmentMain">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Вася, это главная страница" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="50dp"
+            android:background="@color/colorPrimaryDark">
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="99dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-50dp"
+            android:background="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Привет, "
+            android:textAlignment="center"
+            android:textColor="#000561"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="mail"
+            android:textAlignment="center"
+            android:textColor="#4a4a4a"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/group_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Номер группы"
+            android:textAlignment="center"
+            android:textColor="#4a4a4a"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/stud_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Студентов в Вашей группе"
+            android:textAlignment="center"
+            android:textColor="#4a4a4a"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/subject_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Количество предметов"
+            android:textAlignment="center"
+            android:textColor="#4a4a4a"
+            android:textSize="16dp" />
+
+
+        <Button
+            android:layout_gravity="center"
+            android:layout_marginTop="170dp"
+            android:id="@+id/log_out"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Выйти"
+            android:textColor="#000561"
+            android:background="@drawable/button_link_back" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/author"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="40dp"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:text="Приложение было разработано в качестве дипломной работы в Набережночелнинском Государственном Педагогическом Университете-->
+
+<!--Студентом Гайсиным Ришатом-->
+<!--группы 622с"-->
+            <!--android:textColor="#4a4a4a"-->
+            <!--android:textSize="16dp" />-->
+
+    </LinearLayout>
 
 </FrameLayout>

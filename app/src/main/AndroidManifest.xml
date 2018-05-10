@@ -19,7 +19,7 @@
         <activity android:name=".RegActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="Учительский журнал"
             android:theme="@style/AppTheme"></activity>
     </application>
 
