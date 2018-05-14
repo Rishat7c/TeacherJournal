@@ -2,6 +2,7 @@ package tj.teacherjournal.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class FragmentMain extends Fragment {
         user_name = (TextView) v.findViewById(R.id.user_name);
         email = (TextView) v.findViewById(R.id.email);
         group_id = (TextView) v.findViewById(R.id.group_id);
+        stud_count = (TextView) v.findViewById(R.id.stud_count);
 
         Bundle bundle = getArguments();
         String mail = null;
@@ -101,6 +103,10 @@ public class FragmentMain extends Fragment {
             } while (cursor.moveToNext());
         }
         cursor.close();
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int numRows = (int) DatabaseUtils.longForQuery(db, "SELECT COUNT(*) FROM student", null);
+        stud_count.setText("Студентов в Вашей группе " + numRows);
         return v;
     }
 
