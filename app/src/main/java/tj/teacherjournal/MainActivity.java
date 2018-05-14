@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.container, fAttend);
         } else if (id == R.id.note) { // Действие с пагинацией
             fragmentTransaction.replace(R.id.container, fNote);
+        } else if (id == R.id.profile) {
+            fragmentTransaction.replace(R.id.container, fMain);
         } fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

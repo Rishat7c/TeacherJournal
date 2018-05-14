@@ -19,6 +19,7 @@
     <string name="hint_name">ФИО</string>
     <string name="hint_email">Пол</string>
     <string name="hint_password">Password</string>
+    <string name="main_profile">Параметры</string>
 
     <string-array name="gander">
         <item>МУЖ</item>
