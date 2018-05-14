@@ -1,13 +1,19 @@
 package tj.teacherjournal.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import tj.teacherjournal.DBHelper;
+import tj.teacherjournal.MainActivity;
 import tj.teacherjournal.R;
 
 /**
@@ -29,6 +35,9 @@ public class FragmentMain extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView user_name, email, group_id, stud_count, subject_count;
+    private DBHelper dbHelper;
 
     public FragmentMain() {
         // Required empty public constructor
@@ -65,7 +74,34 @@ public class FragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+
+        user_name = (TextView) v.findViewById(R.id.user_name);
+        email = (TextView) v.findViewById(R.id.email);
+        group_id = (TextView) v.findViewById(R.id.group_id);
+
+        Bundle bundle = getArguments();
+        String mail = null;
+        if (bundle != null) {
+            mail = bundle.getString("EMAIL");
+            email.setText(mail);
+        }
+
+        dbHelper = new DBHelper(getActivity());
+
+        // Вытаскиваем инфу из БД
+        Cursor cursor = dbHelper.getByIdAccount(mail);
+        if (cursor.moveToFirst()) {
+            int NameToInput = cursor.getColumnIndex(DBHelper.KEY_NAME);
+            int GroupToInput = cursor.getColumnIndex(DBHelper.KEY_GROUP);
+            do {
+                user_name.setText("Привет, " + cursor.getString(NameToInput));
+                group_id.setText("Номер группы " + cursor.getString(GroupToInput));
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

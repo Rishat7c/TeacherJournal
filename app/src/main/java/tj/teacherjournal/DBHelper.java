@@ -365,6 +365,17 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Вытаскиваем инфу о студенте
      *
+     * @param email
+     * @return true/false
+     */
+    public Cursor getByIdAccount(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_ACCOUNT, null, "email = \'" + email + "\'", null, null, null, null);
+    }
+
+    /**
+     * Вытаскиваем инфу о студенте
+     *
      * @param id
      * @return true/false
      */

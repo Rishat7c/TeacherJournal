@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView link_main;
     private TextView nav_user;
+    public String emailFromIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        emailFromIntent = getIntent().getStringExtra("EMAIL");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -66,8 +67,12 @@ public class MainActivity extends AppCompatActivity
         fProfile = new FragmentProfile();
         fMain = new FragmentMain();
 
+        Bundle bundle=new Bundle();
+        bundle.putString("EMAIL", emailFromIntent);
+
         // Добавить загрузочный контент , аля типа главная страница
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fMain.setArguments(bundle);
         fragmentTransaction.replace(R.id.container, fMain);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -76,7 +81,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+                Bundle bundle=new Bundle();
+                bundle.putString("EMAIL", emailFromIntent);
+
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fMain.setArguments(bundle);
                 fragmentTransaction.replace(R.id.container, fMain);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
