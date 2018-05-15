@@ -148,7 +148,6 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
-                Toast.makeText(getActivity(), "Хуя ебано мы вернулись нахад!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Age:
                 setDate(view);

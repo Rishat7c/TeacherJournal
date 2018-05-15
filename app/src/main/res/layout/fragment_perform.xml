@@ -1,13 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tj.teacherjournal.fragments.FragmentPerform">
+    tools:context="tj.teacherjournal.fragments.FragmentSubject"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/perform_item" />-->
+
+    <Button
+        android:id="@+id/add_subject"
+        android:layout_width="143dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_link_setting"
+        android:textColor="@color/colorTextHint"
+        android:text="Добавить" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/list_subject"
+        android:textColor="@android:color/black" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewSubjects"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/perform_item" />
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>

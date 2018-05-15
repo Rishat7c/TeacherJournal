@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/setting">
+
+    <TextView
+        android:id="@+id/item_subject_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_subject"
+        android:gravity="center"
+        android:padding="6dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:layout_toEndOf="@id/item_subject_icon"
+        android:layout_toRightOf="@id/item_subject_icon">
+
+        <TextView
+            android:id="@+id/subjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Mathematic"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/subjectTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectName"
+            android:layout_margin="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Ivanov A.A."
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

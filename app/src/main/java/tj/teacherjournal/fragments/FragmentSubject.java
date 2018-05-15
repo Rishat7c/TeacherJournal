@@ -2,25 +2,18 @@ package tj.teacherjournal.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,25 +21,24 @@ import java.util.List;
 
 import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
-import tj.teacherjournal.Student;
 import tj.teacherjournal.StudentRecyclerAdapter;
-import tj.teacherjournal.User;
+import tj.teacherjournal.Subject;
+import tj.teacherjournal.SubjectRecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentListStud.OnFragmentInteractionListener} interface
+ * {@link FragmentSubject.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentListStud#newInstance} factory method to
+ * Use the {@link FragmentSubject#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentListStud extends Fragment implements View.OnClickListener {
+public class FragmentSubject extends Fragment implements View.OnClickListener {
 
-    private FragmentListStud activity = FragmentListStud.this;
-    private AppCompatTextView textViewName;
-    private RecyclerView recyclerViewStudents;
-    private List<Student> listStudent;
-    private StudentRecyclerAdapter studentsRecyclerAdapter;
+    private FragmentSubject activity = FragmentSubject.this;
+    private RecyclerView recyclerViewSubjects;
+    private List<Subject> listSubject;
+    private SubjectRecyclerAdapter subjectsRecyclerAdapter;
     private DBHelper databaseHelper;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -60,10 +52,11 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    private Button add_student;
-    frag_add_student as_fragment;
+    private Button add_subject;
 
-    public FragmentListStud() {
+    frag_add_subject as_subject;
+
+    public FragmentSubject() {
         // Required empty public constructor
     }
 
@@ -73,11 +66,11 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentListStud.
+     * @return A new instance of fragment FragmentSubject.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentListStud newInstance(String param1, String param2) {
-        FragmentListStud fragment = new FragmentListStud();
+    public static FragmentSubject newInstance(String param1, String param2) {
+        FragmentSubject fragment = new FragmentSubject();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,22 +91,24 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_list_stud, container, false);
+        View v = inflater.inflate(R.layout.fragment_perform, container, false);
+
         AppCompatTextView textViewName = (AppCompatTextView) v.findViewById(R.id.textViewName);
-        RecyclerView recyclerViewStudents = (RecyclerView) v.findViewById(R.id.recyclerViewStudents);
-        add_student = (Button) v.findViewById(R.id.add_student);
-        add_student.setOnClickListener(this);
+        RecyclerView recyclerViewSubjects = (RecyclerView) v.findViewById(R.id.recyclerViewSubjects);
 
-        as_fragment = new frag_add_student();
+        add_subject = (Button) v.findViewById(R.id.add_subject);
+        add_subject.setOnClickListener(this);
 
-        listStudent = new ArrayList<>();
-        studentsRecyclerAdapter = new StudentRecyclerAdapter(listStudent);
+         as_subject = new frag_add_subject();
+
+        listSubject = new ArrayList<>();
+        subjectsRecyclerAdapter = new SubjectRecyclerAdapter(listSubject);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewStudents.setLayoutManager(mLayoutManager);
-        recyclerViewStudents.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewStudents.setHasFixedSize(true);
-        recyclerViewStudents.setAdapter(studentsRecyclerAdapter);
+        recyclerViewSubjects.setLayoutManager(mLayoutManager);
+        recyclerViewSubjects.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSubjects.setHasFixedSize(true);
+        recyclerViewSubjects.setAdapter(subjectsRecyclerAdapter);
         databaseHelper = new DBHelper(getActivity());
 
         getDataFromSQLite();
@@ -131,8 +126,8 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                listStudent.clear();
-                listStudent.addAll(databaseHelper.getAllStudent());
+                listSubject.clear();
+                listSubject.addAll(databaseHelper.getAllSubject());
 
                 return null;
             }
@@ -140,7 +135,7 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                studentsRecyclerAdapter.notifyDataSetChanged();
+                subjectsRecyclerAdapter.notifyDataSetChanged();
             }
         }.execute();
     }
@@ -161,10 +156,10 @@ public class FragmentListStud extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.add_student:
+            case R.id.add_subject:
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, as_fragment);
+                fragmentTransaction.replace(R.id.container, as_subject);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

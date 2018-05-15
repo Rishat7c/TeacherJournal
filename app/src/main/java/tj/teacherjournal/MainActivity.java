@@ -1,6 +1,5 @@
 package tj.teacherjournal;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,14 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import tj.teacherjournal.fragments.FragmentAttend;
 import tj.teacherjournal.fragments.FragmentListStud;
 import tj.teacherjournal.fragments.FragmentMain;
 import tj.teacherjournal.fragments.FragmentNote;
-import tj.teacherjournal.fragments.FragmentPerform;
-import tj.teacherjournal.fragments.FragmentProfile;
+import tj.teacherjournal.fragments.FragmentSubject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,8 +25,7 @@ public class MainActivity extends AppCompatActivity
     FragmentAttend fAttend;
     FragmentListStud fListStud;
     FragmentNote fNote;
-    FragmentPerform fPerform;
-    FragmentProfile fProfile; // Настройки
+    FragmentSubject fPerform;
     FragmentMain fMain; // Главная страница
 
     private TextView link_main;
@@ -63,8 +59,7 @@ public class MainActivity extends AppCompatActivity
         fAttend = new FragmentAttend();
         fListStud = new FragmentListStud();
         fNote = new FragmentNote();
-        fPerform = new FragmentPerform();
-        fProfile = new FragmentProfile();
+        fPerform = new FragmentSubject();
         fMain = new FragmentMain();
 
         Bundle bundle=new Bundle();
@@ -131,15 +126,15 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         // Событие с кнопками в меню
-        if (id == R.id.list_stud) {
+        if (id == R.id.list_stud) { // Список студентов
             fragmentTransaction.replace(R.id.container, fListStud);
-        } else if (id == R.id.perform) { // Действие с галлерей
+        } else if (id == R.id.perform) { // Предметы
             fragmentTransaction.replace(R.id.container, fPerform);
-        } else if (id == R.id.attend) { // Действие с слайдером
+        } else if (id == R.id.attend) { // Посещаемость
             fragmentTransaction.replace(R.id.container, fAttend);
-        } else if (id == R.id.note) { // Действие с пагинацией
+        } else if (id == R.id.note) { // Заметки
             fragmentTransaction.replace(R.id.container, fNote);
-        } else if (id == R.id.profile) {
+        } else if (id == R.id.profile) { // Параметры
             fragmentTransaction.replace(R.id.container, fMain);
         } fragmentTransaction.commit();
 
