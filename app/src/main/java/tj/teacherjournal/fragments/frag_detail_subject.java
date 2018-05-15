@@ -1,13 +1,22 @@
 package tj.teacherjournal.fragments;
 
+import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
 
 /**
@@ -18,7 +27,7 @@ import tj.teacherjournal.R;
  * Use the {@link frag_detail_subject#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class frag_detail_subject extends Fragment {
+public class frag_detail_subject extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +38,15 @@ public class frag_detail_subject extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private EditText Subject_teacher, Subject_name;
+    private Button Update, Delete, Back;
+    private DBHelper dbHelper;
+    private int SubjectID;
+
+    final String LOG_TAG = "myLogs"; // Логи
+
+    FragmentSubject fragmentSubject;
 
     public frag_detail_subject() {
         // Required empty public constructor
@@ -64,8 +82,41 @@ public class frag_detail_subject extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_detail_subject, container, false);
+
+        View v = inflater.inflate(R.layout.frag_detail_subject, container, false);
+
+        Subject_name = (EditText) v.findViewById(R.id.Subject_name);
+        Subject_teacher = (EditText) v.findViewById(R.id.Subject_teacher);
+
+        Update = (Button) v.findViewById(R.id.Update);
+        Update.setOnClickListener(this);
+        Delete = (Button) v.findViewById(R.id.Delete);
+        Delete.setOnClickListener(this);
+        Back = (Button) v.findViewById(R.id.Back);
+        Back.setOnClickListener(this);
+
+        dbHelper = new DBHelper(getActivity());
+
+        fragmentSubject = new FragmentSubject();
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            SubjectID = bundle.getInt("tag");
+            //Integer recieveInfo = bundle.getInt("tag");
+        }
+
+        // Вытаскиваем инфу из БД
+        Cursor cursor = dbHelper.getByIdSubject(SubjectID);
+        if (cursor.moveToFirst()) {
+            int NameToInput = cursor.getColumnIndex(DBHelper.SUBJECT_NAME);
+            int TeacherToInput = cursor.getColumnIndex(DBHelper.SUBJECT_TEACHER);
+            do {
+                Subject_name.setText(cursor.getString(NameToInput));
+                Subject_teacher.setText(cursor.getString(TeacherToInput));
+            } while (cursor.moveToNext());
+        }
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,6 +130,49 @@ public class frag_detail_subject extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        ContentValues cv = new ContentValues();
+        // Создаем подключение к БД йобана только пока глобально для клика , можно сделать локально для батона
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        // Получаем данные с инпатов
+        String sName = Subject_name.getText().toString();
+        String sTeacher = Subject_teacher.getText().toString();
+
+        switch (view.getId()) {
+            case R.id.Update:
+                cv.put(DBHelper.SUBJECT_NAME, sName);
+                cv.put(DBHelper.SUBJECT_TEACHER, sTeacher);
+
+                // обновляем по id
+                int updCount = db.update(DBHelper.TABLE_SUBJECT, cv, DBHelper.SUBJECT_ID + " = ?", new String[] { String.valueOf(SubjectID) });
+                Log.d(LOG_TAG, "updated rows count = " + updCount);
+
+                FragmentTransaction f = getFragmentManager().beginTransaction();
+                f.replace(R.id.container, fragmentSubject);
+                f.addToBackStack(null);
+                f.commit();
+
+                break;
+            case R.id.Delete:
+                dbHelper.deleteSubject(SubjectID);
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.container, fragmentSubject);
+                ft.addToBackStack(null);
+                ft.commit();
+
+                break;
+            case R.id.Back:
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, fragmentSubject);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 
     /**

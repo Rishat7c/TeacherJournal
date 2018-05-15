@@ -352,14 +352,24 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Этот метод предназначен для удаления записи предмета
      *
-     * @param subject
+     * @param i
      */
-    public void deleteSubject(Subject subject) {
+    public void deleteSubject(int i) {
         SQLiteDatabase db = this.getWritableDatabase();
         // удалить запись пользователя по идентификатору
-        db.delete(TABLE_SUBJECT, SUBJECT_ID + " = ?",
-                new String[]{String.valueOf(subject.getId())});
+        db.delete(TABLE_SUBJECT, SUBJECT_ID + " = " + i, null);
         db.close();
+    }
+
+    /**
+     * Вытаскиваем инфу о студенте
+     *
+     * @param id
+     * @return true/false
+     */
+    public Cursor getByIdSubject(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_SUBJECT, null, "_id = " + id, null, null, null, null);
     }
 
     /**

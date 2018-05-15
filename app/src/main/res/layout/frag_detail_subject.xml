@@ -1,13 +1,93 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tj.teacherjournal.fragments.frag_detail_subject">
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        >
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/subject_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:srcCompat="@drawable/ic_subject"
+            style="@style/AppTheme.FormInputIcon"
+            />
+
+        <EditText
+            android:id="@+id/Subject_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Наименование предмета"
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
+
+        <ImageView
+            android:id="@+id/teacher_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_below="@id/Subject_teacher"
+            app:srcCompat="@drawable/ic_students_black_24dp"
+            style="@style/AppTheme.FormInputIcon"
+            />
+
+        <EditText
+            android:id="@+id/Subject_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/Subject_teacher"
+            android:hint="ФИО преподавателя"
+            android:theme="@style/AppTheme.FormInputTheme"
+            style="@style/AppTheme.FormEntryRow"
+            />
+
+        <LinearLayout
+            android:id="@+id/edit_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@id/Subject_name">
+
+            <Button
+                android:id="@+id/Update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_link_setting"
+                android:text="Обновить"
+                android:layout_weight="1"
+                android:textColor="#00a042" />
+
+            <Button
+                android:id="@+id/Delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Удалить"
+                android:layout_weight="1"
+                android:textColor="#FF0000"
+                android:background="@drawable/button_link_back" />
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/Back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_link_back"
+            android:text="Назад"
+            android:layout_below="@id/edit_buttons"/>
+
+    </RelativeLayout>
+</ScrollView>

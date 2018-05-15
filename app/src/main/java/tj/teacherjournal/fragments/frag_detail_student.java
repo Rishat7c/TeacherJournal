@@ -197,11 +197,11 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         // Получаем данные с инпатов
         String sName = Name.getText().toString();
-        String sGander = Gander.getSelectedItem().toString();;
-        String sAge = Age.getText().toString();;
-        String sRegistration = Registration.getText().toString();;
-        String sNumber = Studnumber.getText().toString();;
-        String sPhone = Phone.getText().toString();;
+        String sGander = Gander.getSelectedItem().toString();
+        String sAge = Age.getText().toString();
+        String sRegistration = Registration.getText().toString();
+        String sNumber = Studnumber.getText().toString();
+        String sPhone = Phone.getText().toString();
         //
 
         switch (view.getId()) {
@@ -218,7 +218,6 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
                 ft.replace(R.id.container, fragmentListStud);
                 ft.addToBackStack(null);
                 ft.commit();
-                Toast.makeText(getActivity(), "Ха удалили твоего студентика " + StudentID, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Update: // Обновление и сохранение в БД
                 // подготовим значения для обновления
@@ -236,7 +235,6 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
                 f.replace(R.id.container, fragmentListStud);
                 f.addToBackStack(null);
                 f.commit();
-                Toast.makeText(getActivity(), "Норм изменили данные студента " + StudentID, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Age:
                 setDate(view);
