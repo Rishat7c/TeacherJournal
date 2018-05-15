@@ -81,6 +81,7 @@ public class FragmentMain extends Fragment {
         email = (TextView) v.findViewById(R.id.email);
         group_id = (TextView) v.findViewById(R.id.group_id);
         stud_count = (TextView) v.findViewById(R.id.stud_count);
+        subject_count = (TextView) v.findViewById(R.id.subject_count);
 
         Bundle bundle = getArguments();
         String mail = null;
@@ -107,6 +108,11 @@ public class FragmentMain extends Fragment {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int numRows = (int) DatabaseUtils.longForQuery(db, "SELECT COUNT(*) FROM student", null);
         stud_count.setText("Студентов в Вашей группе " + numRows);
+
+        SQLiteDatabase db1 = dbHelper.getWritableDatabase();
+        int numRows1 = (int) DatabaseUtils.longForQuery(db1, "SELECT COUNT(*) FROM subject", null);
+        subject_count.setText("Количество предметов " + numRows1);
+
         return v;
     }
 

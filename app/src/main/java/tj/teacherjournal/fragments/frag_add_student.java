@@ -176,6 +176,11 @@ public class frag_add_student extends Fragment implements View.OnClickListener {
 
                 dbHelper.addStudent(student);
 
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.container, fragmentListStud);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
                 // Снек-бар, чтобы показать сообщение об успешном завершении записи
                 Toast.makeText(getActivity(), "Студент успешно был добавлен!", Toast.LENGTH_SHORT).show();
 

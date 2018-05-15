@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
+import tj.teacherjournal.Subject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +38,8 @@ public class frag_add_subject extends Fragment implements View.OnClickListener {
 
    private EditText Teacher, Name;
    private Button Add, Back;
+   private Subject subject;
+   private DBHelper dbHelper;
 
    FragmentSubject fragmentSubject;
 
@@ -76,8 +80,8 @@ public class frag_add_subject extends Fragment implements View.OnClickListener {
 
         View v = inflater.inflate(R.layout.frag_add_subject, container, false);
 
-        Name = (EditText) v.findViewById(R.id.Name);
-        Teacher = (EditText) v.findViewById(R.id.Teacher);
+        Teacher = (EditText) v.findViewById(R.id.Subject_teacher);
+        Name = (EditText) v.findViewById(R.id.Subject_name);
 
         Add = (Button) v.findViewById(R.id.Add);
         Add.setOnClickListener(this);
@@ -85,6 +89,10 @@ public class frag_add_subject extends Fragment implements View.OnClickListener {
         Back.setOnClickListener(this);
 
         fragmentSubject = new FragmentSubject();
+
+        dbHelper = new DBHelper(getActivity());
+
+        subject = new Subject();
 
         return v;
     }
@@ -106,7 +114,9 @@ public class frag_add_subject extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Add:
-                PostDataInBd();
+
+                PostSubjectInBd();
+
                 break;
             case R.id.Back:
 
@@ -119,9 +129,26 @@ public class frag_add_subject extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void PostDataInBd() {
+    private void PostSubjectInBd() {
 
-        // TODO: Запись в БД
+        String name = Name.getText().toString();
+        String teacher = Teacher.getText().toString();
+
+        if (name.length() != 0 && teacher.length() != 0) {
+
+            subject.setTeacher(teacher.trim());
+            subject.setName(name.trim());
+
+            dbHelper.addSubject(subject);
+
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragmentSubject);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        } else {
+            Toast.makeText(getActivity(), "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -16,10 +16,10 @@
             android:id="@+id/attend"
             android:icon="@drawable/ic_content_paste_black_24dp"
             android:title="@string/attend_item" />
-        <item
-            android:id="@+id/note"
-            android:icon="@drawable/ic_speaker_notes_black_24dp"
-            android:title="@string/note_item" />
+        <!--<item-->
+            <!--android:id="@+id/note"-->
+            <!--android:icon="@drawable/ic_speaker_notes_black_24dp"-->
+            <!--android:title="@string/note_item" />-->
     </group>
 
     <item android:title="Communicate">

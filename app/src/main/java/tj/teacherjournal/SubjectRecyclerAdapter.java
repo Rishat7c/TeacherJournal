@@ -43,15 +43,15 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     public SubjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // inflating recycler item view
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_student_recycler, parent, false);
+                .inflate(R.layout.item_subject_recycler, parent, false);
 
         return new SubjectViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(SubjectViewHolder holder, int position) {
-        holder.subjectName.setText(listSubject.get(position).getName());
-        holder.subjectTeacher.setText(listSubject.get(position).getTeacher());
+        holder.subjectTeacher.setText(listSubject.get(position).getName());
+        holder.subjectName.setText(listSubject.get(position).getTeacher());
         holder.setting.setTag(listSubject.get(position).getId());
 //        if(listStudent.get(position).getGender().equals("МУЖ")) {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -66,7 +66,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
 
     @Override
     public int getItemCount() {
-        Log.v(StudentRecyclerAdapter.class.getSimpleName(),""+listSubject.size());
+        Log.v(SubjectRecyclerAdapter.class.getSimpleName(),""+listSubject.size());
         return listSubject.size();
     }
 
@@ -75,15 +75,15 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
      */
     public class SubjectViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView subjectName;
         public TextView subjectTeacher;
+        public TextView subjectName;
         public TextView item_subject_icon;
         public RelativeLayout setting;
 
         public SubjectViewHolder(View view) {
             super(view);
-            subjectName = (TextView) view.findViewById(R.id.subjectName);
             subjectTeacher = (TextView) view.findViewById(R.id.subjectTeacher);
+            subjectName = (TextView) view.findViewById(R.id.subjectName);
             setting = (RelativeLayout) view.findViewById(R.id.setting);
             item_subject_icon = (TextView) view.findViewById(R.id.item_subject_icon);
 //

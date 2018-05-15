@@ -22,7 +22,7 @@
             />
 
         <EditText
-            android:id="@+id/Teacher"
+            android:id="@+id/Subject_teacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -36,17 +36,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_below="@id/Teacher"
+            android:layout_below="@id/Subject_teacher"
             app:srcCompat="@drawable/ic_students_black_24dp"
             style="@style/AppTheme.FormInputIcon"
             />
 
         <EditText
-            android:id="@+id/Name"
+            android:id="@+id/Subject_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_below="@id/Teacher"
+            android:layout_below="@id/Subject_teacher"
             android:hint="ФИО преподавателя"
             android:theme="@style/AppTheme.FormInputTheme"
             style="@style/AppTheme.FormEntryRow"
@@ -58,7 +58,7 @@
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_below="@id/Name">
+            android:layout_below="@id/Subject_name">
 
             <Button
                 android:id="@+id/Add"
