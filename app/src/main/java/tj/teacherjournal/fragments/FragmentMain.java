@@ -1,6 +1,7 @@
 package tj.teacherjournal.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,12 +11,15 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import tj.teacherjournal.AuthActivity;
 import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.MainActivity;
 import tj.teacherjournal.R;
+import tj.teacherjournal.RegActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +29,7 @@ import tj.teacherjournal.R;
  * Use the {@link FragmentMain#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMain extends Fragment {
+public class FragmentMain extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,6 +42,7 @@ public class FragmentMain extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private TextView user_name, email, group_id, stud_count, subject_count;
+    private Button log_out;
     private DBHelper dbHelper;
 
     public FragmentMain() {
@@ -83,6 +88,9 @@ public class FragmentMain extends Fragment {
         stud_count = (TextView) v.findViewById(R.id.stud_count);
         subject_count = (TextView) v.findViewById(R.id.subject_count);
 
+        log_out = (Button) v.findViewById(R.id.log_out);
+        log_out.setOnClickListener(this);
+
         Bundle bundle = getArguments();
         String mail = null;
         if (bundle != null) {
@@ -127,6 +135,19 @@ public class FragmentMain extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.log_out:
+
+                Intent intent_3;
+                intent_3 = new Intent(getActivity(), AuthActivity.class);
+                startActivity(intent_3);
+
+                break;
+        }
     }
 
     /**

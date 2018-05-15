@@ -131,7 +131,7 @@ public class frag_detail_student extends Fragment implements View.OnClickListene
         if (bundle != null) {
             StudentID = bundle.getInt("tag");
             //Integer recieveInfo = bundle.getInt("tag");
-            Toast.makeText(getActivity(), "Ха " + StudentID, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Ха " + StudentID, Toast.LENGTH_SHORT).show();
         }
 
         fragmentListStud = new FragmentListStud();

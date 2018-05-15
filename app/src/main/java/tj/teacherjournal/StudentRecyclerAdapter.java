@@ -93,7 +93,7 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
             item_student_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "ID: " + setting.getTag(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(v.getContext(), "ID: " + setting.getTag(), Toast.LENGTH_LONG).show();
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("tag", (Integer) setting.getTag()); // ID студента
