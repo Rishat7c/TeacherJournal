@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="tj.teacherjournal.fragments.FragmentAttend"
     android:id="@+id/f_a_id">
 
@@ -21,6 +22,35 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="Для того чтобы отметить пропуск студента, достаточно поставить галочку напротив него"/>
+
+    <LinearLayout
+        android:id="@+id/dateforsort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_calendar"
+            style="@style/AppTheme.FormInputIcon"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="Дата"
+            android:textColor="@color/color_text_secondary"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
         <!--<LinearLayout-->
             <!--android:layout_width="wrap_content"-->

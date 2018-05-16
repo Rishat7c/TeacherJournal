@@ -1,5 +1,6 @@
 package tj.teacherjournal.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,10 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +23,10 @@ import tj.teacherjournal.DBHelper;
 import tj.teacherjournal.R;
 
 import android.view.ViewGroup.LayoutParams;
+
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +49,9 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     private DBHelper dbHelper;
+
+    private TextView date;
+    Calendar dateInput=Calendar.getInstance();
 
     public FragmentAttend() {
         // Required empty public constructor
@@ -79,6 +89,10 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_attend, container, false);
+
+        date = (TextView) v.findViewById(R.id.date);
+        date.setOnClickListener(this);
+        setInitialDateTime();
 
         LinearLayout myLayout = (LinearLayout) v.findViewById(R.id.hl); // Был hl и LinearLayout
 
@@ -143,8 +157,39 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.date:
+                setDate(view);
+                break;
+        }
     }
+
+    // отображаем диалоговое окно для выбора даты
+    public void setDate(View v) {
+        new DatePickerDialog(getActivity(), d,
+                dateInput.get(Calendar.YEAR),
+                dateInput.get(Calendar.MONTH),
+                dateInput.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    // установка начальных даты и времени
+    private void setInitialDateTime() {
+
+        date.setText(DateUtils.formatDateTime(getActivity(),
+                dateInput.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
+    // установка обработчика выбора даты
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateInput.set(Calendar.YEAR, year);
+            dateInput.set(Calendar.MONTH, monthOfYear);
+            dateInput.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this
