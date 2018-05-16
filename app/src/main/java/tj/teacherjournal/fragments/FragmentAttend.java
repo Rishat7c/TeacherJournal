@@ -1,6 +1,9 @@
 package tj.teacherjournal.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,19 +13,23 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import tj.teacherjournal.DBHelper;
+import tj.teacherjournal.Protection;
 import tj.teacherjournal.R;
 
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -52,6 +59,8 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
 
     private TextView date;
     Calendar dateInput=Calendar.getInstance();
+    LinearLayout myLayout;
+    LayoutParams lp;
 
     public FragmentAttend() {
         // Required empty public constructor
@@ -92,14 +101,20 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
 
         date = (TextView) v.findViewById(R.id.date);
         date.setOnClickListener(this);
-        setInitialDateTime();
 
-        LinearLayout myLayout = (LinearLayout) v.findViewById(R.id.hl); // Был hl и LinearLayout
+        myLayout = (LinearLayout) v.findViewById(R.id.containerAttend); // Был hl и LinearLayout
 
-        LayoutParams lp = new LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp = new LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         dbHelper = new DBHelper(getActivity());
 
+        setInitialDateTime();
+//        ListLoader();
+
+        return v;
+    }
+
+    private void ListLoader() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Вытаскиваем инфу из БД
@@ -107,25 +122,56 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
         if (cursor.moveToFirst()) {
             int id = cursor.getColumnIndex(DBHelper.STUD_ID);
             int Name = cursor.getColumnIndex(DBHelper.STUD_NAME);
+            int StudNumber = cursor.getColumnIndex(DBHelper.STUD_NUMBER);
             do {
-                    LinearLayout c = new LinearLayout(getActivity());
-                    c.setLayoutParams(lp);
-                    c.setId(cursor.getInt(id));
-                    c.setOrientation(LinearLayout.HORIZONTAL);
-                    c.setBackgroundColor(Color.LTGRAY);
-                    myLayout.addView(c);
+                final LinearLayout c = new LinearLayout(getActivity());
+                c.setLayoutParams(lp);
+                c.setTag(cursor.getString(StudNumber));
+                c.setOrientation(LinearLayout.HORIZONTAL);
+                c.setBackgroundColor(Color.LTGRAY);
+                myLayout.addView(c);
 
-                    CheckBox b = new CheckBox(getActivity());
-                    b.setLayoutParams(lp);
-                    b.setId(cursor.getInt(id));
-                    c.addView(b);
+                final CheckBox b = new CheckBox(getActivity());
+                b.setLayoutParams(lp);
+                b.setTag(cursor.getString(StudNumber));
+                c.addView(b);
 
-                    TextView a = new TextView(getActivity());
-                    a.setTextSize(15);
-                    a.setLayoutParams(lp);
-                    a.setId(cursor.getInt(id));
-                    a.setText(cursor.getString(Name));
-                    c.addView(a);
+                b.setChecked(checkInBd(b.getTag().toString(),date.getText().toString()));
+
+                b.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                        SQLiteDatabase database = dbHelper.getWritableDatabase();
+                        ContentValues contentValues = new ContentValues();
+
+                        if(isChecked) { // isChecked = либо true , либо false
+//                                Toast.makeText(getActivity(), "Studnumber = " + b.getTag(), Toast.LENGTH_SHORT).show();
+
+                            contentValues.put(DBHelper.ATTEND_NUMBER, b.getTag().toString());
+                            contentValues.put(DBHelper.ATTEND_DATE, date.getText().toString());
+
+                            database.insert(DBHelper.TABLE_ATTEND, null, contentValues);
+
+                        } else {
+                            Toast.makeText(getActivity(), "Удалили", Toast.LENGTH_SHORT).show();
+
+                            int delCount = database.delete(DBHelper.TABLE_ATTEND, "number=\'" + b.getTag().toString() + "\' AND date=\'" + date.getText().toString() + "\'", null);
+
+//                            int delCount = database.delete("attend","number=? and date=?",new String[]{b.getTag().toString(),date.getText().toString()});
+
+                            Log.d("mLog", "deleted rows count = " + delCount);
+                        }
+
+                    }
+                });
+
+                TextView a = new TextView(getActivity());
+                a.setTextSize(15);
+                a.setLayoutParams(lp);
+                a.setTag(cursor.getString(StudNumber));
+                a.setText(cursor.getString(Name));
+                c.addView(a);
 
                 //Name.setText(cursor.getString(NameToInput));
             } while (cursor.moveToNext());
@@ -138,8 +184,6 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
         }
         cursor.close();
         db.close();
-
-        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -171,6 +215,8 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
                 dateInput.get(Calendar.MONTH),
                 dateInput.get(Calendar.DAY_OF_MONTH))
                 .show();
+
+        myLayout.removeAllViews(); // Удаляем все объекты со сцены
     }
 
     // установка начальных даты и времени
@@ -179,6 +225,8 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
         date.setText(DateUtils.formatDateTime(getActivity(),
                 dateInput.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
+        ListLoader(); // Загружаем данные на сцену
     }
 
     // установка обработчика выбора даты
@@ -190,6 +238,23 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
             setInitialDateTime();
         }
     };
+
+    private boolean checkInBd(String number, String date) {
+
+//        db.query(TABLE_ACCOUNT, null, "email = \'" + email + "\'", null, null, null, null);
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.query(DBHelper.TABLE_ATTEND, null, "number = \'" + number + "\' AND date = \'" + date + "\'", null, null, null, null);
+
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if (cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * This interface must be implemented by activities that contain this

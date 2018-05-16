@@ -38,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String STUD_AGE = "age";
     public static final String STUD_GROUP = "groupid"; // TODO: Привязка с таблицой из аккаунтов
     public static final String STUD_REGISTRATION = "registration"; // Прописка
-    public static final String STUD_NUMBER = "studnumber"; // Номер студенческого билета
+    public static final String STUD_NUMBER = "studnumber"; // Номер студенческого билета (Должен быть уникальным)
     public static final String STUD_PHONE = "phone"; // Номер студенческого билета
 
     /**
@@ -48,6 +48,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String SUBJECT_ID = "_id";
     public static final String SUBJECT_NAME = "name";
     public static final String SUBJECT_TEACHER = "teacher"; // Педагог
+
+    /**
+     *  Таблица с посещениями
+     */
+    public static final String TABLE_ATTEND = "attend"; // Посещения
+    public static final String ATTEND_ID = "_id";
+    public static final String ATTEND_NUMBER = "number"; // Номер студенческого билета (Уникальный)
+    public static final String ATTEND_DATE = "date"; // Дата
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -64,6 +72,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 STUD_REGISTRATION + " text," + STUD_NUMBER + " text," + STUD_PHONE + " text" + ")");
 
         db.execSQL("create table " + TABLE_SUBJECT + "(" + SUBJECT_ID + " integer primary key," + SUBJECT_NAME + " text," + SUBJECT_TEACHER + " text" +")");
+
+        db.execSQL("create table " + TABLE_ATTEND + "(" + ATTEND_ID + " integer primary key," + ATTEND_NUMBER + " text," + ATTEND_DATE + " text" +")");
 
     }
 
