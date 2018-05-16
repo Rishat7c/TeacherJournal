@@ -16,7 +16,6 @@ import android.widget.TextView;
 import tj.teacherjournal.fragments.FragmentAttend;
 import tj.teacherjournal.fragments.FragmentListStud;
 import tj.teacherjournal.fragments.FragmentMain;
-import tj.teacherjournal.fragments.FragmentNote;
 import tj.teacherjournal.fragments.FragmentSubject;
 
 public class MainActivity extends AppCompatActivity
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity
 
     FragmentAttend fAttend;
     FragmentListStud fListStud;
-    FragmentNote fNote;
     FragmentSubject fPerform;
     FragmentMain fMain; // Главная страница
 
@@ -58,7 +56,6 @@ public class MainActivity extends AppCompatActivity
 
         fAttend = new FragmentAttend();
         fListStud = new FragmentListStud();
-        fNote = new FragmentNote();
         fPerform = new FragmentSubject();
         fMain = new FragmentMain();
 
