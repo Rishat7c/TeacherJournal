@@ -154,7 +154,7 @@ public class FragmentAttend extends Fragment implements View.OnClickListener {
                             database.insert(DBHelper.TABLE_ATTEND, null, contentValues);
 
                         } else {
-                            Toast.makeText(getActivity(), "Удалили", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "Удалили", Toast.LENGTH_SHORT).show();
 
                             int delCount = database.delete(DBHelper.TABLE_ATTEND, "number=\'" + b.getTag().toString() + "\' AND date=\'" + date.getText().toString() + "\'", null);
 
