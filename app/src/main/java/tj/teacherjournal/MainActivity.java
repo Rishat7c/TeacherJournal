@@ -129,11 +129,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.container, fPerform);
         } else if (id == R.id.attend) { // Посещаемость
             fragmentTransaction.replace(R.id.container, fAttend);
-        }
-//        else if (id == R.id.note) { // Заметки
-//            fragmentTransaction.replace(R.id.container, fNote);
-//        }
-        else if (id == R.id.profile) { // Параметры
+        } else if (id == R.id.profile) { // Параметры
             fragmentTransaction.replace(R.id.container, fMain);
         } fragmentTransaction.commit();
 
