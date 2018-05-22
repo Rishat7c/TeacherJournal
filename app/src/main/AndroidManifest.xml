@@ -19,7 +19,7 @@
         <activity android:name=".RegActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="Учительский журнал"
+            android:label="Кураторский журнал"
             android:theme="@style/AppTheme"></activity>
     </application>
 
