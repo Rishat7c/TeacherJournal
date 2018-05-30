@@ -9,7 +9,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="liststud_item">Список студентов</string>
+    <string name="liststud_item">Cтуденты</string>
     <string name="perform_item">Предметы</string>
     <string name="attend_item">Посещаемость</string>
     <string name="note_item">Заметки</string>
