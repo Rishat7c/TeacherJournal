@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String STUD_GROUP = "groupid"; // TODO: Привязка с таблицой из аккаунтов
     public static final String STUD_REGISTRATION = "registration"; // Прописка
     public static final String STUD_NUMBER = "studnumber"; // Номер студенческого билета (Должен быть уникальным)
-    public static final String STUD_PHONE = "phone"; // Номер студенческого билета
+    public static final String STUD_PHONE = "phone"; // Номер сотового телефона
 
     /**
      *  Таблица с предметами
